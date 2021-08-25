@@ -1,12 +1,11 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import CreateTask from "./utilities/CreateTask";
 import "./App.css";
 import Header from "./utilities/Header";
-import { BrowserRouter as Router, Switch, Route, Link} from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import Prioritize from "./mainPages/Prioritize";
 import Standard from "./mainPages/Standard";
 import Daily from "./mainPages/Daily";
-
 
 function App() {
   const [standard, setStandard] = useState([]);
@@ -33,17 +32,24 @@ function App() {
           <Header />
         </div>
 
-        <CreateTask standard = {standard} setStandard = {setStandard} priority = {priority} setPriority = {setPriority} daily = {daily} setDaily = {setDaily}/>
+        <CreateTask
+          standard={standard}
+          setStandard={setStandard}
+          priority={priority}
+          setPriority={setPriority}
+          daily={daily}
+          setDaily={setDaily}
+        />
 
         <Switch>
           <Route path="/daily">
-            <Daily daily = {daily} setDaily = {setDaily}/>
+            <Daily daily={daily} setDaily={setDaily} />
           </Route>
           <Route path="/prioritize">
-            <Prioritize  priority = {priority} setPriority = {setPriority} />
+            <Prioritize priority={priority} setPriority={setPriority} />
           </Route>
           <Route path="/" exact>
-            <Standard standard = {standard} setStandard = {setStandard}/>
+            <Standard standard={standard} setStandard={setStandard} />
           </Route>
           <Route path="*">
             <h1>Page Does not exist</h1>
