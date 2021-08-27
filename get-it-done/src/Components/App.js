@@ -6,11 +6,25 @@ import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import Prioritize from "./mainPages/Prioritize";
 import Standard from "./mainPages/Standard";
 import Daily from "./mainPages/Daily";
+import { v4 as uuidv4 } from "uuid";
 
 function App() {
   const [standard, setStandard] = useState([]);
   const [priority, setPriority] = useState([]);
   const [daily, setDaily] = useState([]);
+  const [item, setItem] = useState({
+    id: uuidv4(),
+    task: "",
+    date: "",
+    time: "",
+    minutes: "",
+    am: "AM",
+    color: "red",
+    due: "",
+    important: "",
+    checked: false,
+    toggle: false,
+  });
 
   return (
     <div className="App">
@@ -39,17 +53,34 @@ function App() {
           setPriority={setPriority}
           daily={daily}
           setDaily={setDaily}
+          item={item}
+          setItem={setItem}
         />
 
         <Switch>
           <Route path="/daily">
-            <Daily daily={daily} setDaily={setDaily} />
+            <Daily
+              daily={daily}
+              setDaily={setDaily}
+              item={item}
+              setItem={setItem}
+            />
           </Route>
           <Route path="/prioritize">
-            <Prioritize priority={priority} setPriority={setPriority} />
+            <Prioritize
+              priority={priority}
+              setPriority={setPriority}
+              item={item}
+              setItem={setItem}
+            />
           </Route>
           <Route path="/" exact>
-            <Standard standard={standard} setStandard={setStandard} />
+            <Standard
+              standard={standard}
+              setStandard={setStandard}
+              item={item}
+              setItem={setItem}
+            />
           </Route>
           <Route path="*">
             <h1>Page Does not exist</h1>
