@@ -1,7 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import EditTasks from "../utilities/EditTasks";
 import { useLocation } from "react-router-dom";
-const Daily = ({ daily, setDaily, setItem }) => {
+const Daily = ({ daily, setDaily, setItem, setTimes, times }) => {
   const location = useLocation();
   let onCheck = e => {
     let editArr = daily.map(item => {
@@ -14,6 +14,19 @@ const Daily = ({ daily, setDaily, setItem }) => {
       }
     });
     setDaily(editArr);
+  };
+
+  let handleSubmit = e => {
+    e.preventDefault();
+
+    setTimes(prevState => {
+      return [...prevState, 1];
+    });
+    console.log(e.target);
+  };
+
+  let handleChange = () => {
+    console.log("Yo momma");
   };
 
   let onDelete = e => {
@@ -37,53 +50,82 @@ const Daily = ({ daily, setDaily, setItem }) => {
   return (
     <div>
       <h1>Daily Tasks</h1>
+      <form onSubmit={handleSubmit}>
+        <div>
+          <input
+            type="number"
+            name="start"
+            // value={item.time}
+            // onChange={handleChange}
+            placeholder="Start"
+            min="1"
+            max="12"
+          />
+          <select name="am" onChange={handleChange} id="">
+            <option value="am">AM</option>
+            <option value="pm">PM</option>
+          </select>
+          <input
+            type="number"
+            name="end"
+            // value={item.minutes}
+            // onChange={handleChange}
+            placeholder="End"
+            min="1"
+            max="12"
+          />
+          <select name="am" onChange={handleChange} id="">
+            <option value="am">AM</option>
+            <option value="pm">PM</option>
+          </select>
+          <input type="submit" />
+        </div>
+      </form>
       <div style={{ border: "2px black solid" }}>
-        {daily.length > 0
-          ? daily.map(
-              ({ id, task, date, time, color, checked, toggle }, index) => {
-                console.log(time);
-                return (
-                  <div key={id}>
-                    <input
-                      type="checkbox"
-                      id={id}
-                      onChange={onCheck}
-                      checked={checked}
-                      value={checked}
-                    />
-                    {checked === false ? (
-                      <label style={{ color: color }}>
-                        {task + " " + date + " " + time + " "}
-                      </label>
-                    ) : (
-                      <label
-                        style={{ color: color, textDecoration: "line-through" }}
-                      >
-                        {task + " " + date + " " + time + " "}
-                      </label>
-                    )}
+        {daily.map(
+          ({ id, task, date, time, color, checked, toggle }, index) => {
+            console.log(time);
+            return (
+              <div key={id}>
+                <input
+                  type="checkbox"
+                  id={id}
+                  onChange={onCheck}
+                  checked={checked}
+                  value={checked}
+                />
+                {checked === false ? (
+                  <label style={{ color: color }}>
+                    {task + " " + date + " " + time + " "}
+                  </label>
+                ) : (
+                  <label
+                    style={{ color: color, textDecoration: "line-through" }}
+                  >
+                    {task + " " + date + " " + time + " "}
+                  </label>
+                )}
 
-                    <button onClick={onDelete} id={id}>
-                      Delete
-                    </button>
-                    <button onClick={onEdit} id={id}>
-                      Edit
-                    </button>
-                    {toggle ? (
-                      <EditTasks
-                        item={daily[index]}
-                        list={daily}
-                        setItem={setItem}
-                        setList={setDaily}
-                        onEdit={onEdit}
-                        location={location}
-                      />
-                    ) : null}
-                  </div>
-                );
-              }
-            )
-          : null}
+                <button onClick={onDelete} id={id}>
+                  Delete
+                </button>
+                <button onClick={onEdit} id={id}>
+                  Edit
+                </button>
+                {toggle ? (
+                  <EditTasks
+                    item={daily[index]}
+                    list={daily}
+                    setItem={setItem}
+                    setList={setDaily}
+                    onEdit={onEdit}
+                    location={location}
+                  />
+                ) : null}
+              </div>
+            );
+          }
+        )}
       </div>
     </div>
   );

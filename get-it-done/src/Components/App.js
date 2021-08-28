@@ -25,6 +25,7 @@ function App() {
     checked: false,
     toggle: false,
   });
+  const [times, setTimes] = useState([]);
 
   return (
     <div className="App">
@@ -55,6 +56,7 @@ function App() {
           setDaily={setDaily}
           item={item}
           setItem={setItem}
+          times={times}
         />
 
         <Switch>
@@ -64,6 +66,8 @@ function App() {
               setDaily={setDaily}
               item={item}
               setItem={setItem}
+              times={times}
+              setTimes={setTimes}
             />
           </Route>
           <Route path="/prioritize">

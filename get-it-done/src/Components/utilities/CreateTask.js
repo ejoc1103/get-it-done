@@ -11,8 +11,13 @@ function CreateTask({
   setDaily,
   item,
   setItem,
+  times,
 }) {
   const location = useLocation();
+  let show = true;
+  if (location.pathname === "/daily" && times.length === 0) {
+    show = false;
+  }
   // Use for setting min and max date
   // const date = new Date();
   // const newdate= (date.getMonth() + 1) + '-' + date.getDate() + '-' +  date.getFullYear();
@@ -36,6 +41,8 @@ function CreateTask({
       task: "",
       date: "",
       time: "",
+      minutes: "",
+      am: "AM",
       color: "red",
       due: "",
       important: "",
@@ -56,12 +63,16 @@ function CreateTask({
   };
 
   return (
-    <InputArea
-      handleChange={handleChange}
-      handleSubmit={handleSubmit}
-      item={item}
-      buttonType="Add Task"
-    />
+    <>
+      {show ? (
+        <InputArea
+          handleChange={handleChange}
+          handleSubmit={handleSubmit}
+          item={item}
+          buttonType="Add Task"
+        />
+      ) : null}
+    </>
   );
 }
 
