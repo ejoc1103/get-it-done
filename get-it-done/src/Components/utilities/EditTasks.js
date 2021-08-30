@@ -1,11 +1,14 @@
 import React, { useState } from "react";
 import InputArea from "./InputArea";
 const EditTasks = ({ item, setList, list, setItem }) => {
+  console.log(`${item.id},  \n ${setList} , \n ${list[0].task}`);
   const [tempItem, setTempItem] = useState({
     id: item.id,
     task: "",
     date: "",
     time: "",
+    minutes: "",
+    am: "am",
     color: "red",
     due: "",
     important: "",

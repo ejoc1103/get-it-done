@@ -3,7 +3,7 @@ import { useLocation } from "react-router-dom";
 
 const InputArea = ({ handleChange, handleSubmit, item, buttonType }) => {
   const location = useLocation();
-  console.log(location.pathname)
+  console.log(location.pathname);
   return (
     <div>
       <form onSubmit={handleSubmit}>
@@ -35,17 +35,21 @@ const InputArea = ({ handleChange, handleSubmit, item, buttonType }) => {
               value={item.time}
               onChange={handleChange}
               placeholder="Hour"
-              min="5"
-              max="11"
+              min="1"
+              max="12"
             />{" "}
-            <input
-              type="number"
+            <select
               name="minutes"
               value={item.minutes}
               onChange={handleChange}
-              placeholder="Minute"
-            />
-            <select name="am" onChange={handleChange} id="">
+              id="mintues"
+            >
+              <option value="0">0</option>
+              <option value="15">15</option>
+              <option value="30">30</option>
+              <option value="45">45</option>
+            </select>
+            <select name="am" onChange={handleChange} id="am">
               <option value="am">AM</option>
               <option value="pm">PM</option>
             </select>
@@ -62,7 +66,7 @@ const InputArea = ({ handleChange, handleSubmit, item, buttonType }) => {
 
         {/* doesnt show for prority */}
         {location.pathname !== "/prioritize" ? (
-          <select name="color" onChange={handleChange} id="">
+          <select name="color" onChange={handleChange} id="color">
             <option value="red">High Priority</option>
             <option value="black">Regular Task</option>
             <option value="blue">Low Priority</option>
@@ -71,11 +75,11 @@ const InputArea = ({ handleChange, handleSubmit, item, buttonType }) => {
         {/* only shows for priority */}
         {location.pathname === "/prioritize" ? (
           <>
-            <select name="important" onChange={handleChange} id="">
+            <select name="important" onChange={handleChange} id="importance">
               <option value="important">Important</option>
               <option value="not important">Not Important</option>
             </select>
-            <select name="due" onChange={handleChange} id="">
+            <select name="due" onChange={handleChange} id="due">
               <option value="due soon">Due Soon</option>
               <option value="not due soon">Not Due Soon</option>
             </select>{" "}

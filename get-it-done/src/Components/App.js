@@ -18,7 +18,7 @@ function App() {
     date: "",
     time: "",
     minutes: "",
-    am: "AM",
+    am: "am",
     color: "red",
     due: "",
     important: "",
