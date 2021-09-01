@@ -3,7 +3,6 @@ import { useLocation } from "react-router-dom";
 
 const InputArea = ({ handleChange, handleSubmit, item, buttonType }) => {
   const location = useLocation();
-  console.log(location.pathname);
   return (
     <div>
       <form onSubmit={handleSubmit}>
@@ -75,7 +74,12 @@ const InputArea = ({ handleChange, handleSubmit, item, buttonType }) => {
         {/* only shows for priority */}
         {location.pathname === "/prioritize" ? (
           <>
-            <select name="important" onChange={handleChange} id="importance">
+            <select
+              name="important"
+              onChange={handleChange}
+              id="importance"
+              required
+            >
               <option value="important">Important</option>
               <option value="not important">Not Important</option>
             </select>

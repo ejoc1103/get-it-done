@@ -26,6 +26,14 @@ function App() {
     toggle: false,
   });
   const [times, setTimes] = useState([]);
+  const [scheduleStartEnd, setScheduleStartEnd] = useState({
+    startNum: "",
+    startAm: "am",
+    endNum: "",
+    endAm: "am",
+  });
+
+  const [leftOvers, setLeftOvers] = useState([]);
 
   return (
     <div className="App">
@@ -57,6 +65,9 @@ function App() {
           item={item}
           setItem={setItem}
           times={times}
+          scheduleStartEnd={scheduleStartEnd}
+          leftOvers={leftOvers}
+          setLeftOvers={setLeftOvers}
         />
 
         <Switch>
@@ -68,6 +79,10 @@ function App() {
               setItem={setItem}
               times={times}
               setTimes={setTimes}
+              scheduleStartEnd={scheduleStartEnd}
+              setScheduleStartEnd={setScheduleStartEnd}
+              leftOvers={leftOvers}
+              setLeftOvers={setLeftOvers}
             />
           </Route>
           <Route path="/prioritize">

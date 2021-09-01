@@ -39,51 +39,70 @@ const Standard = ({ standard, setStandard, setItem }) => {
     <div>
       <h1>Standard List</h1>
       <div style={{ border: "2px black solid" }}>
-        {standard.length > 0
-          ? standard.map(
-              ({ id, task, date, time, color, checked, toggle }, index) => {
-                return (
-                  <div key={id}>
-                    <input
-                      type="checkbox"
-                      id={id}
-                      onChange={onCheck}
-                      checked={checked}
-                      value={checked}
-                    />
-                    {checked === false ? (
-                      <label style={{ color: color }}>
-                        {task + " " + date + " " + time + " "}
-                      </label>
-                    ) : (
-                      <label
-                        style={{ color: color, textDecoration: "line-through" }}
-                      >
-                        {task + " " + date + " " + time + " "}
-                      </label>
-                    )}
+        {standard.map(
+          ({ id, task, date, time, am, color, checked, toggle }, index) => {
+            let standardTime = time; // your input
 
-                    <button onClick={onDelete} id={id}>
-                      Delete
-                    </button>
-                    <button onClick={onEdit} id={id}>
-                      Edit
-                    </button>
-                    {toggle ? (
-                      <EditTasks
-                        item={standard[index]}
-                        list={standard}
-                        setItem={setItem}
-                        setList={setStandard}
-                        onEdit={onEdit}
-                        location={location}
-                      />
-                    ) : null}
-                  </div>
-                );
-              }
-            )
-          : null}
+            standardTime = standardTime.split(":"); // convert to array
+
+            // fetch
+            let hours = Number(standardTime[0]);
+            let minutes = Number(standardTime[1]);
+
+            // calculate
+            let timeValue;
+
+            if (hours > 0 && hours <= 12) {
+              timeValue = "" + hours;
+            } else if (hours > 12) {
+              timeValue = "" + (hours - 12);
+            } else if (hours === 0) {
+              timeValue = "12";
+            }
+
+            timeValue += minutes < 10 ? ":0" + minutes : ":" + minutes; // get minutes
+            timeValue += hours >= 12 ? " P.M." : " A.M."; // get AM/PM
+            return (
+              <div key={id}>
+                <input
+                  type="checkbox"
+                  id={id}
+                  onChange={onCheck}
+                  checked={checked}
+                  value={checked}
+                />
+                {checked === false ? (
+                  <label style={{ color: color }}>
+                    {task + " " + date + " " + timeValue + " "}
+                  </label>
+                ) : (
+                  <label
+                    style={{ color: color, textDecoration: "line-through" }}
+                  >
+                    {task + " " + date + " " + timeValue + " "}
+                  </label>
+                )}
+
+                <button onClick={onDelete} id={id}>
+                  Delete
+                </button>
+                <button onClick={onEdit} id={id}>
+                  Edit
+                </button>
+                {toggle ? (
+                  <EditTasks
+                    item={standard[index]}
+                    list={standard}
+                    setItem={setItem}
+                    setList={setStandard}
+                    onEdit={onEdit}
+                    location={location}
+                  />
+                ) : null}
+              </div>
+            );
+          }
+        )}
       </div>
     </div>
   );

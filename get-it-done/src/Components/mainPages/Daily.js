@@ -1,16 +1,19 @@
-//minute ordering
-//error catching
-
-import React, { useState } from "react";
+//rethink leftover logic
+//leftovers = daily
+import React, { useState, useEffect } from "react";
 import EditTasks from "../utilities/EditTasks";
 import { useLocation } from "react-router-dom";
-const Daily = ({ daily, setDaily, setItem, setTimes, times }) => {
-  const [scheduleStartEnd, setScheduleStartEnd] = useState({
-    startNum: "",
-    startAm: "am",
-    endNum: "",
-    endAm: "am",
-  });
+const Daily = ({
+  daily,
+  setDaily,
+  setItem,
+  setTimes,
+  times,
+  scheduleStartEnd,
+  setScheduleStartEnd,
+  leftOvers,
+  setLeftOvers,
+}) => {
   const location = useLocation();
   let onCheck = e => {
     let editArr = daily.map(item => {
@@ -24,6 +27,7 @@ const Daily = ({ daily, setDaily, setItem, setTimes, times }) => {
     });
     setDaily(editArr);
   };
+  const [dayToggle, setDayToggle] = useState(true);
 
   let handleSubmit = e => {
     e.preventDefault();
@@ -60,8 +64,26 @@ const Daily = ({ daily, setDaily, setItem, setTimes, times }) => {
     }
 
     setTimes(tempArr);
-    console.log(tempArr);
+    setDayToggle(false);
   };
+
+  useEffect(() => {
+    let temp = daily.filter(({ time, am }) => {
+      if (am === "pm" && time !== 12) {
+        time = parseInt(time) + 12;
+      } else {
+        parseInt(time);
+      }
+      console.log(times + "these are the times");
+      console.log(
+        time + "    " + typeof time + "   " + times.indexOf(parseInt(time))
+      );
+      return times.indexOf(parseInt(time)) === -1;
+    });
+    console.log(temp);
+    setLeftOvers(temp);
+  }, [daily, setLeftOvers]);
+
   let handleChange = e => {
     const { name, value } = e.target;
     setScheduleStartEnd(prevState => {
@@ -74,6 +96,10 @@ const Daily = ({ daily, setDaily, setItem, setTimes, times }) => {
     setDaily(editArr);
   };
 
+  let revealScheduleMaker = e => {
+    e.preventDefault();
+    setDayToggle(true);
+  };
   let onEdit = e => {
     let editArr = daily.map(item => {
       let update = { ...item, toggle: !item.toggle };
@@ -86,39 +112,105 @@ const Daily = ({ daily, setDaily, setItem, setTimes, times }) => {
     });
     setDaily(editArr);
   };
+
   return (
     <div>
       <h1>Daily Tasks</h1>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <input
-            type="number"
-            name="startNum"
-            onChange={handleChange}
-            placeholder="Start"
-            min="1"
-            max="12"
-          />
-          <select name="startAm" onChange={handleChange} id="start">
-            <option value="am">AM</option>
-            <option value="pm">PM</option>
-          </select>
-          <input
-            type="number"
-            name="endNum"
-            onChange={handleChange}
-            placeholder="End"
-            min="1"
-            max="12"
-          />
-          <select name="endAm" onChange={handleChange} id="end">
-            <option value="am">AM</option>
-            <option value="pm">PM</option>
-          </select>
-          <input type="submit" />
-        </div>
-      </form>
+      {dayToggle ? (
+        <form onSubmit={handleSubmit}>
+          <div>
+            <input
+              type="number"
+              name="startNum"
+              onChange={handleChange}
+              placeholder="Start"
+              min="1"
+              max="12"
+            />
+            <select name="startAm" onChange={handleChange} id="start">
+              <option value="am">AM</option>
+              <option value="pm">PM</option>
+            </select>
+            <input
+              type="number"
+              name="endNum"
+              onChange={handleChange}
+              placeholder="End"
+              min="1"
+              max="12"
+            />
+            <select name="endAm" onChange={handleChange} id="end">
+              <option value="am">AM</option>
+              <option value="pm">PM</option>
+            </select>
+            <input type="submit" />
+          </div>
+        </form>
+      ) : (
+        <form onSubmit={revealScheduleMaker}>
+          <button type="submit">Change Times</button>
+        </form>
+      )}
       <div style={{ border: "2px black solid" }}>
+        {leftOvers.length > 0 ? (
+          <h2>
+            These Items don't fit your schedule. Either change their time or
+            your scheduele
+          </h2>
+        ) : null}
+
+        {leftOvers.length > 0
+          ? leftOvers.map(
+              (
+                { id, task, time, minutes, color, checked, toggle, am },
+                index
+              ) => {
+                return (
+                  <div key={id}>
+                    <div key={id}>
+                      <input
+                        type="checkbox"
+                        id={id}
+                        onChange={onCheck}
+                        checked={checked}
+                        value={checked}
+                      />
+                      {checked === false ? (
+                        <label
+                          style={{ color: color }}
+                        >{`${task} - ${time}:${minutes}   `}</label>
+                      ) : (
+                        <label
+                          style={{
+                            color: color,
+                            textDecoration: "line-through",
+                          }}
+                        >
+                          {`${task} - ${time}:${minutes}   `}
+                        </label>
+                      )}
+                      <button onClick={onDelete} id={id}>
+                        Delete
+                      </button>
+                      <button onClick={onEdit} id={id}>
+                        Edit
+                      </button>
+                      {toggle ? (
+                        <EditTasks
+                          item={daily[index]}
+                          list={daily}
+                          setItem={setItem}
+                          setList={setDaily}
+                          onEdit={onEdit}
+                          location={location}
+                        />
+                      ) : null}
+                    </div>
+                  </div>
+                );
+              }
+            )
+          : null}
         {times.map((num, index) => {
           let amSched = "";
           if (num < 12 || num === 24) {
@@ -132,10 +224,30 @@ const Daily = ({ daily, setDaily, setItem, setTimes, times }) => {
             num = num - 12;
             amSched = "pm";
           }
+
+          let timeslot = daily.filter(task => {
+            let temp;
+            if (task.time === `${num}` && task.am === amSched) {
+              temp = task;
+            }
+            return temp;
+          });
+
+          let compare = (a, b) => {
+            if (a.minutes < b.minutes) {
+              return -1;
+            }
+            if (a.minutes > b.minutes) {
+              return 1;
+            }
+            return 0;
+          };
+
+          timeslot.sort(compare);
           return (
             <div key={index}>
               <h2>{num + " " + amSched}</h2>;
-              {daily.map(
+              {timeslot.map(
                 (
                   { id, task, time, minutes, color, checked, toggle, am },
                   index

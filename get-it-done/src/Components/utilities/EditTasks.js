@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import InputArea from "./InputArea";
 const EditTasks = ({ item, setList, list, setItem }) => {
-  console.log(`${item.id},  \n ${setList} , \n ${list[0].task}`);
   const [tempItem, setTempItem] = useState({
     id: item.id,
     task: "",
@@ -46,14 +45,6 @@ const EditTasks = ({ item, setList, list, setItem }) => {
     setTempItem(prevItem => {
       return { ...prevItem, [name]: value };
     });
-    // setItem(prevItem => {
-    //   return {
-    //     ...prevItem,
-    //     [name]: value,
-    //   };
-    // });
-    console.log(e.target);
-    console.log(tempItem.task);
   };
 
   return (
