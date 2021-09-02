@@ -1,6 +1,7 @@
 import React from "react";
 import EditTasks from "../utilities/EditTasks";
 import { useLocation } from "react-router-dom";
+import timeConverter from "../utilities/timeConverter";
 const Standard = ({ standard, setStandard, setItem }) => {
   const location = useLocation();
   let onCheck = e => {
@@ -17,7 +18,6 @@ const Standard = ({ standard, setStandard, setItem }) => {
   };
 
   let onDelete = e => {
-    console.log(e.target.id);
     let editArr = standard.filter(item => item.id !== e.target.id);
     setStandard(editArr);
   };
@@ -41,27 +41,11 @@ const Standard = ({ standard, setStandard, setItem }) => {
       <div style={{ border: "2px black solid" }}>
         {standard.map(
           ({ id, task, date, time, am, color, checked, toggle }, index) => {
-            let standardTime = time; // your input
-
-            standardTime = standardTime.split(":"); // convert to array
-
-            // fetch
-            let hours = Number(standardTime[0]);
-            let minutes = Number(standardTime[1]);
-
-            // calculate
-            let timeValue;
-
-            if (hours > 0 && hours <= 12) {
-              timeValue = "" + hours;
-            } else if (hours > 12) {
-              timeValue = "" + (hours - 12);
-            } else if (hours === 0) {
-              timeValue = "12";
+            let standardTime = "";
+            if (time !== "") {
+              standardTime = timeConverter(time);
             }
 
-            timeValue += minutes < 10 ? ":0" + minutes : ":" + minutes; // get minutes
-            timeValue += hours >= 12 ? " P.M." : " A.M."; // get AM/PM
             return (
               <div key={id}>
                 <input
@@ -73,13 +57,13 @@ const Standard = ({ standard, setStandard, setItem }) => {
                 />
                 {checked === false ? (
                   <label style={{ color: color }}>
-                    {task + " " + date + " " + timeValue + " "}
+                    {task + " " + date + " " + standardTime + " "}
                   </label>
                 ) : (
                   <label
                     style={{ color: color, textDecoration: "line-through" }}
                   >
-                    {task + " " + date + " " + timeValue + " "}
+                    {task + " " + date + " " + standardTime + " "}
                   </label>
                 )}
 

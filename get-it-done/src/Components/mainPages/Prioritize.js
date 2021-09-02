@@ -43,39 +43,19 @@ const Prioritize = ({ priority, setPriority, item, setItem }) => {
   const [nimns, setNimns] = useState([]);
   useEffect(() => {
     let importantSoon = priority.filter(item => {
-      let temp = [];
-      if (item.important === "important" && item.due === "due soon") {
-        console.log("first If");
-        temp.push(item);
-      }
-
-      return temp;
+      return item.important === "important" && item.due === "due soon";
     });
+
     let importantNotSoon = priority.filter(item => {
-      let temp = [];
-
-      if (item.important === "important" && item.due === "not due soon") {
-        console.log("second if");
-        temp.push(item);
-      }
-      return temp;
+      return item.important === "important" && item.due === "not due soon";
     });
+
     let notImportantSoon = priority.filter(item => {
-      let temp = [];
-      if (item.important === "not important" && item.due === "due soon") {
-        console.log("third if");
-        temp.push(item);
-      }
-
-      return temp;
+      return item.important === "not important" && item.due === "due soon";
     });
+
     let notImportantNotSoon = priority.filter(item => {
-      let temp = [];
-      if (item.important === "not important" && item.due === "not due soon") {
-        console.log("fourth if");
-        temp.push(item);
-      }
-      return temp;
+      return item.important === "not important" && item.due === "not due soon";
     });
 
     setIms(importantSoon);
@@ -96,7 +76,11 @@ const Prioritize = ({ priority, setPriority, item, setItem }) => {
             { id, task, date, time, color, checked, toggle, important, due },
             index
           ) => {
-            let timeValue = timeConverter(time);
+            let timeValue = "";
+
+            if (time !== "") {
+              timeValue = timeConverter(time);
+            }
 
             return (
               <div key={id}>
@@ -134,7 +118,6 @@ const Prioritize = ({ priority, setPriority, item, setItem }) => {
             { id, task, date, time, color, checked, toggle, important, due },
             index
           ) => {
-            console.log(important);
             let timeValue = timeConverter(time);
 
             return (

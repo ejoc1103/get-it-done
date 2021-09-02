@@ -1,4 +1,6 @@
 //Error in time showing on standard page
+//Doesnt reload in time change
+
 import React from "react";
 import { useLocation } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
@@ -13,7 +15,6 @@ function CreateTask({
   item,
   setItem,
   times,
-  setLeftOvers,
 }) {
   const location = useLocation();
   let show = true;
@@ -27,17 +28,7 @@ function CreateTask({
       alert("You did not enter a task please fill this section");
       return;
     }
-    for (let i = 0; i < daily.length; i++) {
-      if (
-        `${item.time}:${item.minutes}` ===
-        `${daily[i].time}:${daily[i].minutes}`
-      ) {
-        alert(
-          "You already have a task scheduled at this time please try again"
-        );
-        return;
-      }
-    }
+
     if (location.pathname === "/") {
       setStandard([...standard, item]);
     } else if (location.pathname === "/daily") {
@@ -45,7 +36,24 @@ function CreateTask({
         alert("You need to fill in a time for your task please try again");
         return;
       }
+      if (item.minutes === "") {
+        item.minutes = e.target.minutes.value;
+      }
+      if (item.am === "") {
+        item.am = e.target.am.value;
+      }
 
+      for (let i = 0; i < daily.length; i++) {
+        if (
+          `${item.time}:${item.minutes}` ===
+          `${daily[i].time}:${daily[i].minutes}`
+        ) {
+          alert(
+            "You already have a task scheduled at this time please try again"
+          );
+          return;
+        }
+      }
       setDaily([...daily, item]);
     } else {
       //use to fix am issue
@@ -53,8 +61,12 @@ function CreateTask({
         item.important = e.target.important.value;
       }
       if (item.due === "") {
-        item.important = e.target.due.value;
+        item.due = e.target.due.value;
       }
+      if (item.am === "") {
+        item.am = e.target.am.value;
+      }
+
       setPriority([...priority, item]);
     }
     setItem({
@@ -63,7 +75,7 @@ function CreateTask({
       date: "",
       time: "",
       minutes: "",
-      am: "am",
+      am: "",
       color: "red",
       due: "",
       important: "",

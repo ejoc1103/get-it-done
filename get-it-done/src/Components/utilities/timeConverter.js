@@ -24,6 +24,7 @@ let timeConverter = time => {
   } else {
     timeValue = "";
   }
+  return timeValue;
 };
 
 export default timeConverter;

@@ -24,7 +24,7 @@ const BasicList = ({
       />
       {checked === false ? (
         <label style={{ color: color }}>
-          {task + " " + date + " " + time + " " + important + due}
+          {task + " " + date + " " + time + " "}
         </label>
       ) : (
         <label style={{ color: color, textDecoration: "line-through" }}>

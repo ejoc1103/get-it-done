@@ -43,7 +43,7 @@ const InputArea = ({ handleChange, handleSubmit, item, buttonType }) => {
               onChange={handleChange}
               id="mintues"
             >
-              <option value="0">0</option>
+              <option value="00">0</option>
               <option value="15">15</option>
               <option value="30">30</option>
               <option value="45">45</option>

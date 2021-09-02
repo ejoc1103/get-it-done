@@ -14,6 +14,10 @@ const Daily = ({
   leftOvers,
   setLeftOvers,
 }) => {
+  daily.map(({ task }) => {
+    console.log(task);
+  });
+
   const location = useLocation();
   let onCheck = e => {
     let editArr = daily.map(item => {
@@ -32,10 +36,11 @@ const Daily = ({
   let handleSubmit = e => {
     e.preventDefault();
     let { startNum, endNum, startAm, endAm } = scheduleStartEnd;
+    console.log(startNum + "    " + startAm);
     startNum = parseInt(startNum);
     endNum = parseInt(endNum);
     let tempArr = [];
-    if (startAm === "pm" && endNum !== 12) {
+    if (startAm === "pm" && startNum !== 12) {
       startNum = startNum + 12;
     }
     if (endAm === "pm" && endNum !== 12) {
@@ -65,6 +70,12 @@ const Daily = ({
 
     setTimes(tempArr);
     setDayToggle(false);
+    setScheduleStartEnd({
+      startNum: "",
+      startAm: "am",
+      endNum: "",
+      endAm: "am",
+    });
   };
 
   useEffect(() => {
@@ -74,18 +85,16 @@ const Daily = ({
       } else {
         parseInt(time);
       }
-      console.log(times + "these are the times");
-      console.log(
-        time + "    " + typeof time + "   " + times.indexOf(parseInt(time))
-      );
+
       return times.indexOf(parseInt(time)) === -1;
     });
-    console.log(temp);
+
     setLeftOvers(temp);
-  }, [daily, setLeftOvers]);
+  }, [daily, setLeftOvers, dayToggle, times]);
 
   let handleChange = e => {
     const { name, value } = e.target;
+    console.log(name + "   " + value);
     setScheduleStartEnd(prevState => {
       return { ...prevState, [name]: value };
     });
@@ -178,7 +187,7 @@ const Daily = ({
                       {checked === false ? (
                         <label
                           style={{ color: color }}
-                        >{`${task} - ${time}:${minutes}   `}</label>
+                        >{`${task} - ${time}:${minutes} ${am}   `}</label>
                       ) : (
                         <label
                           style={{
@@ -186,7 +195,7 @@ const Daily = ({
                             textDecoration: "line-through",
                           }}
                         >
-                          {`${task} - ${time}:${minutes}   `}
+                          {`${task} - ${time}:${minutes} ${am}   `}
                         </label>
                       )}
                       <button onClick={onDelete} id={id}>
