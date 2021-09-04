@@ -2,8 +2,10 @@ import React from "react";
 import EditTasks from "../utilities/EditTasks";
 import { useLocation } from "react-router-dom";
 import timeConverter from "../utilities/timeConverter";
+
 const Standard = ({ standard, setStandard, setItem }) => {
   const location = useLocation();
+
   let onCheck = e => {
     let editArr = standard.map(item => {
       let update = { ...item, checked: !item.checked };
