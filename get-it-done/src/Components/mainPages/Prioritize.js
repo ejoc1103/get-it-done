@@ -3,26 +3,10 @@ import EditTasks from "../utilities/EditTasks";
 import BasicListItem from "../utilities/BasicListItem";
 import { useLocation } from "react-router-dom";
 import timeConverter from "../utilities/timeConverter";
+import onCheck from "../helpers/onCheck";
+import onDelete from "../helpers/onDelete";
 const Prioritize = ({ priority, setPriority, item, setItem }) => {
   const location = useLocation();
-  let onCheck = e => {
-    let editArr = priority.map(item => {
-      let update = { ...item, checked: !item.checked };
-
-      if (`${item.id}` === e.target.id) {
-        return update;
-      } else {
-        return item;
-      }
-    });
-    setPriority(editArr);
-  };
-
-  let onDelete = e => {
-    e.preventDefault();
-    let editArr = priority.filter(item => item.id !== e.target.id);
-    setPriority(editArr);
-  };
 
   let onEdit = e => {
     e.preventDefault();
@@ -97,6 +81,8 @@ const Prioritize = ({ priority, setPriority, item, setItem }) => {
                   onCheck={onCheck}
                   onEdit={onEdit}
                   onDelete={onDelete}
+                  list={priority}
+                  setList={setPriority}
                 />
                 {toggle ? (
                   <EditTasks
@@ -135,6 +121,8 @@ const Prioritize = ({ priority, setPriority, item, setItem }) => {
                   onCheck={onCheck}
                   onEdit={onEdit}
                   onDelete={onDelete}
+                  list={priority}
+                  setList={setPriority}
                 />
                 {toggle ? (
                   <EditTasks
@@ -173,6 +161,8 @@ const Prioritize = ({ priority, setPriority, item, setItem }) => {
                   onCheck={onCheck}
                   onEdit={onEdit}
                   onDelete={onDelete}
+                  list={priority}
+                  setList={setPriority}
                 />
                 {toggle ? (
                   <EditTasks
@@ -211,6 +201,8 @@ const Prioritize = ({ priority, setPriority, item, setItem }) => {
                   onCheck={onCheck}
                   onEdit={onEdit}
                   onDelete={onDelete}
+                  list={priority}
+                  setList={setPriority}
                 />
                 {toggle ? (
                   <EditTasks

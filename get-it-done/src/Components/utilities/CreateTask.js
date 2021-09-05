@@ -56,15 +56,12 @@ function CreateTask({
       }
       setDaily([...daily, item]);
     } else {
-      //use to fix am issue
       if (item.important === "") {
         item.important = e.target.important.value;
       }
       if (item.due === "") {
+        console.log(e.target.due.value);
         item.due = e.target.due.value;
-      }
-      if (item.am === "") {
-        item.am = e.target.am.value;
       }
 
       setPriority([...priority, item]);

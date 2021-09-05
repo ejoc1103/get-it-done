@@ -2,27 +2,11 @@ import React from "react";
 import EditTasks from "../utilities/EditTasks";
 import { useLocation } from "react-router-dom";
 import timeConverter from "../utilities/timeConverter";
-
+import onCheck from "../helpers/onCheck";
+import BasicListItem from "../utilities/BasicListItem";
+import onDelete from "../helpers/onDelete";
 const Standard = ({ standard, setStandard, setItem }) => {
   const location = useLocation();
-
-  let onCheck = e => {
-    let editArr = standard.map(item => {
-      let update = { ...item, checked: !item.checked };
-
-      if (`${item.id}` === e.target.id) {
-        return update;
-      } else {
-        return item;
-      }
-    });
-    setStandard(editArr);
-  };
-
-  let onDelete = e => {
-    let editArr = standard.filter(item => item.id !== e.target.id);
-    setStandard(editArr);
-  };
 
   let onEdit = e => {
     let editArr = standard.map(item => {
@@ -50,31 +34,20 @@ const Standard = ({ standard, setStandard, setItem }) => {
 
             return (
               <div key={id}>
-                <input
-                  type="checkbox"
+                <BasicListItem
                   id={id}
-                  onChange={onCheck}
+                  task={task}
+                  date={date}
+                  time={standardTime}
+                  color={color}
                   checked={checked}
-                  value={checked}
+                  toggle={toggle}
+                  onCheck={onCheck}
+                  onEdit={onEdit}
+                  onDelete={onDelete}
+                  list={standard}
+                  setList={setStandard}
                 />
-                {checked === false ? (
-                  <label style={{ color: color }}>
-                    {task + " " + date + " " + standardTime + " "}
-                  </label>
-                ) : (
-                  <label
-                    style={{ color: color, textDecoration: "line-through" }}
-                  >
-                    {task + " " + date + " " + standardTime + " "}
-                  </label>
-                )}
-
-                <button onClick={onDelete} id={id}>
-                  Delete
-                </button>
-                <button onClick={onEdit} id={id}>
-                  Edit
-                </button>
                 {toggle ? (
                   <EditTasks
                     item={standard[index]}

@@ -1,8 +1,9 @@
-//rethink leftover logic
-//leftovers = daily
 import React, { useState, useEffect } from "react";
 import EditTasks from "../utilities/EditTasks";
+import BasicListItem from "../utilities/BasicListItem";
 import { useLocation } from "react-router-dom";
+import onCheck from "../helpers/onCheck";
+import onDelete from "../helpers/onDelete";
 const Daily = ({
   daily,
   setDaily,
@@ -14,23 +15,8 @@ const Daily = ({
   leftOvers,
   setLeftOvers,
 }) => {
-  daily.map(({ task }) => {
-    console.log(task);
-  });
-
   const location = useLocation();
-  let onCheck = e => {
-    let editArr = daily.map(item => {
-      let update = { ...item, checked: !item.checked };
 
-      if (`${item.id}` === e.target.id) {
-        return update;
-      } else {
-        return item;
-      }
-    });
-    setDaily(editArr);
-  };
   const [dayToggle, setDayToggle] = useState(true);
 
   let handleSubmit = e => {
@@ -98,11 +84,6 @@ const Daily = ({
     setScheduleStartEnd(prevState => {
       return { ...prevState, [name]: value };
     });
-  };
-
-  let onDelete = e => {
-    let editArr = daily.filter(item => item.id !== e.target.id);
-    setDaily(editArr);
   };
 
   let revealScheduleMaker = e => {
@@ -177,33 +158,21 @@ const Daily = ({
                 return (
                   <div key={id}>
                     <div key={id}>
-                      <input
-                        type="checkbox"
+                      <BasicListItem
                         id={id}
-                        onChange={onCheck}
+                        task={task}
+                        time={time}
+                        minutes={minutes}
+                        am={am}
+                        color={color}
                         checked={checked}
-                        value={checked}
+                        toggle={toggle}
+                        onCheck={onCheck}
+                        onEdit={onEdit}
+                        onDelete={onDelete}
+                        list={daily}
+                        setList={setDaily}
                       />
-                      {checked === false ? (
-                        <label
-                          style={{ color: color }}
-                        >{`${task} - ${time}:${minutes} ${am}   `}</label>
-                      ) : (
-                        <label
-                          style={{
-                            color: color,
-                            textDecoration: "line-through",
-                          }}
-                        >
-                          {`${task} - ${time}:${minutes} ${am}   `}
-                        </label>
-                      )}
-                      <button onClick={onDelete} id={id}>
-                        Delete
-                      </button>
-                      <button onClick={onEdit} id={id}>
-                        Edit
-                      </button>
                       {toggle ? (
                         <EditTasks
                           item={daily[index]}
@@ -265,33 +234,22 @@ const Daily = ({
                     <div key={id}>
                       {`${num}` === time && amSched === am ? (
                         <div key={id}>
-                          <input
-                            type="checkbox"
+                          <BasicListItem
                             id={id}
-                            onChange={onCheck}
+                            task={task}
+                            time={time}
+                            minutes={minutes}
+                            am={am}
+                            color={color}
                             checked={checked}
-                            value={checked}
+                            toggle={toggle}
+                            onCheck={onCheck}
+                            onEdit={onEdit}
+                            onDelete={onDelete}
+                            list={daily}
+                            setList={setDaily}
                           />
-                          {checked === false ? (
-                            <label
-                              style={{ color: color }}
-                            >{`${task} - ${time}:${minutes}   `}</label>
-                          ) : (
-                            <label
-                              style={{
-                                color: color,
-                                textDecoration: "line-through",
-                              }}
-                            >
-                              {`${task} - ${time}:${minutes}   `}
-                            </label>
-                          )}
-                          <button onClick={onDelete} id={id}>
-                            Delete
-                          </button>
-                          <button onClick={onEdit} id={id}>
-                            Edit
-                          </button>
+
                           {toggle ? (
                             <EditTasks
                               item={daily[index]}
