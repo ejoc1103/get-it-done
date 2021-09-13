@@ -5,26 +5,37 @@ import timeConverter from "../utilities/timeConverter";
 import onCheck from "../helpers/onCheck";
 import BasicListItem from "../utilities/BasicListItem";
 import onDelete from "../helpers/onDelete";
+import onEdit from "../helpers/onEdit";
+import styled from "styled-components";
+
+const StandardListStyled = styled.div`
+  display: grid;
+  min-height: 200px;
+  background-color: #f5f5f5;
+  width: 600px;
+  margin: 0 auto;
+  padding: 0;
+
+  > ul {
+    color: #555;
+    font-size: 22px;
+    padding: 0 !important;
+    width: 500px;
+    font-family: courier, monospace;
+    border: 1px solid #dedede;
+  }
+  > h1 {
+    text-align: center;
+  }
+`;
+
 const Standard = ({ standard, setStandard, setItem }) => {
   const location = useLocation();
 
-  let onEdit = e => {
-    let editArr = standard.map(item => {
-      let update = { ...item, toggle: !item.toggle };
-
-      if (`${item.id}` === e.target.id) {
-        return update;
-      } else {
-        return item;
-      }
-    });
-    setStandard(editArr);
-  };
-
   return (
-    <div>
+    <StandardListStyled>
       <h1>Standard List</h1>
-      <div style={{ border: "2px black solid" }}>
+      <div>
         {standard.map(
           ({ id, task, date, time, am, color, checked, toggle }, index) => {
             let standardTime = "";
@@ -33,7 +44,7 @@ const Standard = ({ standard, setStandard, setItem }) => {
             }
 
             return (
-              <div key={id}>
+              <ul key={id}>
                 <BasicListItem
                   id={id}
                   task={task}
@@ -56,14 +67,15 @@ const Standard = ({ standard, setStandard, setItem }) => {
                     setList={setStandard}
                     onEdit={onEdit}
                     location={location}
+                    toggle={toggle}
                   />
                 ) : null}
-              </div>
+              </ul>
             );
           }
         )}
       </div>
-    </div>
+    </StandardListStyled>
   );
 };
 

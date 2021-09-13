@@ -1,10 +1,24 @@
-//Error in time showing on standard page
 //Doesnt reload in time change
-
 import React from "react";
 import { useLocation } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
 import InputArea from "./InputArea";
+import styled from "styled-components";
+
+const CreateTaskStyled = styled.div`
+  display: grid;
+  margin: 120px;
+
+  @media (max-width: 768px) {
+    margin-top: 150px;
+  }
+
+  @media (max-width: 475px) {
+    margin-top: 260px;
+    justify-self: center;
+  }
+`;
+
 function CreateTask({
   standard,
   setStandard,
@@ -15,6 +29,7 @@ function CreateTask({
   item,
   setItem,
   times,
+  toggle,
 }) {
   const location = useLocation();
   let show = true;
@@ -45,8 +60,8 @@ function CreateTask({
 
       for (let i = 0; i < daily.length; i++) {
         if (
-          `${item.time}:${item.minutes}` ===
-          `${daily[i].time}:${daily[i].minutes}`
+          `${item.time}:${item.minutes}${item.am}` ===
+          `${daily[i].time}:${daily[i].minutes}${daily[i].am}`
         ) {
           alert(
             "You already have a task scheduled at this time please try again"
@@ -60,7 +75,6 @@ function CreateTask({
         item.important = e.target.important.value;
       }
       if (item.due === "") {
-        console.log(e.target.due.value);
         item.due = e.target.due.value;
       }
 
@@ -93,16 +107,17 @@ function CreateTask({
   };
 
   return (
-    <>
+    <CreateTaskStyled>
       {show ? (
         <InputArea
           handleChange={handleChange}
           handleSubmit={handleSubmit}
           item={item}
           buttonType="Add Task"
+          toggle={toggle}
         />
       ) : null}
-    </>
+    </CreateTaskStyled>
   );
 }
 
