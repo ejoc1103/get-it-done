@@ -21,6 +21,20 @@ const FormStyled = styled.form`
   gap: 10px;
   font-size: 1em;
 
+  > div {
+    > button {
+      display: grid;
+      font-size: 1.5em;
+      background-color: #f2a154;
+      border-radius: 30%;
+      width: 75%;
+
+      @media (min-width: 768px) {
+        grid-area: button;
+      }
+    }
+  }
+
   @media (min-width: 768px) {
     ${({ area }) =>
       area === "/daily"
@@ -58,23 +72,13 @@ const PrioritzieStyled = styled.div`
   }
 `;
 
-const ButtonStyled = styled.button`
-  display: grid;
-  font-size: 1.5em;
-  background-color: #f2a154;
-  border-radius: 30%;
-
-  @media (min-width: 768px) {
-    grid-area: button;
-  }
-`;
-
 const InputArea = ({
   handleChange,
   handleSubmit,
   item,
   buttonType,
   toggle,
+  handleCancel,
 }) => {
   const location = useLocation();
   return (
@@ -88,7 +92,7 @@ const InputArea = ({
           onChange={handleChange}
           placeholder="Task"
         />
-        {/* doesnt show for prority */}
+        {/* doesnt show for priority */}
         {location.pathname !== "/prioritize" ? (
           <ColorStyled name="color" onChange={handleChange} id="color">
             <option value="red">High Priority</option>
@@ -103,9 +107,6 @@ const InputArea = ({
             name="date"
             value={item.date}
             onChange={handleChange}
-            // min and max dates maybe
-            // min= {newdate}
-            // max= {enddate}
           />
         ) : null}
         {/* always shows */}
@@ -164,9 +165,12 @@ const InputArea = ({
             </select>{" "}
           </PrioritzieStyled>
         ) : null}
-        <ButtonStyled type="submit" value="Submit">
-          {buttonType}
-        </ButtonStyled>
+        <div>
+          <button type="submit" value="Submit">
+            {buttonType}
+          </button>
+          {toggle ? <button onClick={handleCancel}>Cancel</button> : null}
+        </div>
       </FormStyled>
     </InputAreaStyled>
   );

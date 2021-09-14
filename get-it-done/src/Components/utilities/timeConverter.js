@@ -5,11 +5,9 @@ let timeConverter = time => {
 
     standardTime = standardTime.split(":"); // convert to array
 
-    // fetch
     let hours = Number(standardTime[0]);
     let minutes = Number(standardTime[1]);
 
-    // calculate
 
     if (hours > 0 && hours <= 12) {
       timeValue = "" + hours;

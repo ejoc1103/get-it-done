@@ -8,14 +8,21 @@ import styled from "styled-components";
 const CreateTaskStyled = styled.div`
   display: grid;
   margin: 120px;
+  position: -webkit-sticky; /* Safari */
+  position: sticky;
+  top: 25%;
+  border: 5px solid #314e52;
+  background: #e7e6e1;
+  padding: 5px;
 
   @media (max-width: 768px) {
     margin-top: 150px;
+    width: 500px;
   }
 
   @media (max-width: 475px) {
     margin-top: 260px;
-    justify-self: center;
+    width: 350px;
   }
 `;
 
@@ -31,9 +38,11 @@ function CreateTask({
   times,
   toggle,
 }) {
-  const location = useLocation();
+  const { pathname } = useLocation();
+  //Create tasks doesnt show right away on day planner page
+  //this if statement makes that happen
   let show = true;
-  if (location.pathname === "/daily" && times.length === 0) {
+  if (pathname === "/daily" && times.length === 0) {
     show = false;
   }
   //if task is "" error fill in task
@@ -43,10 +52,11 @@ function CreateTask({
       alert("You did not enter a task please fill this section");
       return;
     }
-
-    if (location.pathname === "/") {
+    //Each section has certain requirements that need to be met
+    //when entering a task these ifs make sure those are entered
+    if (pathname === "/") {
       setStandard([...standard, item]);
-    } else if (location.pathname === "/daily") {
+    } else if (pathname === "/daily") {
       if (item.time === "") {
         alert("You need to fill in a time for your task please try again");
         return;
@@ -80,6 +90,7 @@ function CreateTask({
 
       setPriority([...priority, item]);
     }
+    // resets item to blank after previous item has been added to list
     setItem({
       id: uuidv4(),
       task: "",
@@ -94,7 +105,7 @@ function CreateTask({
       toggle: false,
     });
   };
-
+  //handles change on form when entering a new item
   let handleChange = e => {
     e.preventDefault();
     const { name, value } = e.target;
@@ -107,17 +118,20 @@ function CreateTask({
   };
 
   return (
-    <CreateTaskStyled>
+    <>
+      {/* shows automatically on every page but daily on daily it shows after the hours are scheduled */}
       {show ? (
-        <InputArea
-          handleChange={handleChange}
-          handleSubmit={handleSubmit}
-          item={item}
-          buttonType="Add Task"
-          toggle={toggle}
-        />
+        <CreateTaskStyled>
+          <InputArea
+            handleChange={handleChange}
+            handleSubmit={handleSubmit}
+            item={item}
+            buttonType="Add Task"
+            toggle={toggle}
+          />
+        </CreateTaskStyled>
       ) : null}
-    </CreateTaskStyled>
+    </>
   );
 }
 

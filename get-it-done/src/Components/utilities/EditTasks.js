@@ -1,7 +1,28 @@
 import React, { useState } from "react";
 import InputArea from "./InputArea";
 import { useLocation } from "react-router-dom";
+import styled from "styled-components";
 
+const EditTasksStyled = styled.div`
+  position: fixed;
+  width: 420px;
+  height: 200px;
+  top: 50%;
+  left: 50%;
+  margin-top: -100px;
+  margin-left: -250px;
+  padding: 30px;
+  background: #f5f5f5;
+  border: 5px solid #314e52;
+
+  > h2 {
+    text-align: center;
+  }
+
+  @media (max-width: 475px) {
+    padding: 30px 30px 100px 30px;
+  }
+`;
 const EditTasks = ({ item, setList, list, toggle }) => {
   console.log(toggle);
   const { pathname } = useLocation();
@@ -82,14 +103,34 @@ const EditTasks = ({ item, setList, list, toggle }) => {
     });
   };
 
+  let handleCancel = e => {
+    e.preventDefault();
+    setList(() => {
+      const newList = list.map(task => {
+        if (task.id === item.id) {
+          task = { ...task, toggle: false };
+        }
+        return task;
+      });
+      return newList;
+    });
+  };
   return (
-    <InputArea
-      handleChange={handleChange}
-      handleSubmit={handleSubmit}
-      item={tempItem}
-      buttonType="Change Task"
-      toggle={toggle}
-    />
+    <EditTasksStyled>
+      <h2 style={{ color: item.color }}>
+        {pathname !== "/daily"
+          ? `${item.task}  ${item.date}  ${item.time}`
+          : `${item.task} - ${item.time}:${item.minutes} ${item.am}   `}
+      </h2>
+      <InputArea
+        handleChange={handleChange}
+        handleSubmit={handleSubmit}
+        item={tempItem}
+        buttonType="Change Task"
+        toggle={toggle}
+        handleCancel={handleCancel}
+      />
+    </EditTasksStyled>
   );
 };
 

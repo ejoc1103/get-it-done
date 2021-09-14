@@ -1,5 +1,6 @@
-let onEdit = (e, list, setList, pathname) => {
+let onEdit = (e, list, setList) => {
   e.preventDefault();
+  // edits the selected item
   let editArr = list.map(item => {
     let update = { ...item, toggle: !item.toggle };
 

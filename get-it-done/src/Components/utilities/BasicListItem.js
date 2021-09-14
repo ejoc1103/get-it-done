@@ -5,7 +5,6 @@ import styled from "styled-components";
 const StyledListItem = styled.li`
   display: grid;
   gap: 10px;
-
   list-style: none;
   border-bottom: 1px dotted #ccc;
   text-indent: 25px;
@@ -36,9 +35,11 @@ const BasicList = ({
   toggle,
 }) => {
   const { pathname } = useLocation();
-
+  //Creates a item to be added to a todo list
+  //Depending on which list its being added to information changes slightly
   return (
     <StyledListItem key={id} listType={pathname}>
+      {/* Creates a check box for the item */}
       <input
         type="checkbox"
         id={id}
@@ -48,6 +49,8 @@ const BasicList = ({
         checked={checked}
         value={checked}
       />
+      {/* creates the based on which list its going into and whether or not it has
+      been checked */}
       {checked === false ? (
         <label style={{ color: color }}>
           {pathname !== "/daily"
@@ -61,7 +64,7 @@ const BasicList = ({
             : `${task} - ${time}:${minutes} ${am}   `}
         </label>
       )}
-
+      {/* creates button to delete item */}
       <button
         onClick={e => {
           onDelete(e, list, setList);
@@ -70,6 +73,7 @@ const BasicList = ({
       >
         Delete
       </button>
+      {/* creates button to edit item */}
       <button
         onClick={e => {
           onEdit(e, list, setList, pathname);

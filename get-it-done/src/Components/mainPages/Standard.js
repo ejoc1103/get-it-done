@@ -1,13 +1,12 @@
 import React from "react";
 import EditTasks from "../utilities/EditTasks";
-import { useLocation } from "react-router-dom";
 import timeConverter from "../utilities/timeConverter";
 import onCheck from "../helpers/onCheck";
 import BasicListItem from "../utilities/BasicListItem";
 import onDelete from "../helpers/onDelete";
 import onEdit from "../helpers/onEdit";
 import styled from "styled-components";
-
+//styling for standard page
 const StandardListStyled = styled.div`
   display: grid;
   min-height: 200px;
@@ -21,24 +20,25 @@ const StandardListStyled = styled.div`
     font-size: 22px;
     padding: 0 !important;
     width: 500px;
-    font-family: courier, monospace;
     border: 1px solid #dedede;
   }
   > h1 {
     text-align: center;
   }
 `;
-
+//Receives lists and item creation functions from main state through App.js
 const Standard = ({ standard, setStandard, setItem }) => {
-  const location = useLocation();
-
   return (
     <StandardListStyled>
       <h1>Standard List</h1>
       <div>
+        {/* maps over the array that makes up the standard list to show the items on the page */}
         {standard.map(
-          ({ id, task, date, time, am, color, checked, toggle }, index) => {
+          ({ id, task, date, time, color, checked, toggle }, index) => {
             let standardTime = "";
+
+            /* timeConverter takes the time which is given in milary style through javascript and makes it standard */
+
             if (time !== "") {
               standardTime = timeConverter(time);
             }
@@ -59,6 +59,7 @@ const Standard = ({ standard, setStandard, setItem }) => {
                   list={standard}
                   setList={setStandard}
                 />
+                {/* when you click edit brings up a modal for editing a task otherwise doesnt show */}
                 {toggle ? (
                   <EditTasks
                     item={standard[index]}
@@ -66,7 +67,6 @@ const Standard = ({ standard, setStandard, setItem }) => {
                     setItem={setItem}
                     setList={setStandard}
                     onEdit={onEdit}
-                    location={location}
                     toggle={toggle}
                   />
                 ) : null}

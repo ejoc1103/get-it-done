@@ -1,25 +1,22 @@
 import React, { useState, useEffect } from "react";
 import EditTasks from "../utilities/EditTasks";
 import BasicListItem from "../utilities/BasicListItem";
-import { useLocation } from "react-router-dom";
 import onCheck from "../helpers/onCheck";
 import onDelete from "../helpers/onDelete";
 import onEdit from "../helpers/onEdit";
 import styled from "styled-components";
-
+//Styles for Day Planner Page
 const DailyPageStyled = styled.div`
   display: grid;
   justify-content: center;
   min-height: 200px;
   width: 600px;
+  text-align: center;
   margin: 0 auto;
   padding: 0;
   grid-template-columns: 1fr;
   gap: 5px;
-
-  > h1 {
-    text-align: center;
-  }
+  margin-top: ${({ show }) => (show === true ? "" : "150px")};
 `;
 
 const DaySetterStyled = styled.form`
@@ -80,6 +77,13 @@ const HourBlockStyled = styled.div`
   grid-template-columns: 1fr 1fr;
 `;
 
+const LeftOversStyled = styled.div`
+  background: #d1c145;
+  > h2 {
+    color: white;
+  }
+`;
+
 const Daily = ({
   daily,
   setDaily,
@@ -90,20 +94,27 @@ const Daily = ({
   setScheduleStartEnd,
   leftOvers,
   setLeftOvers,
+  dayToggle,
+  setDayToggle,
 }) => {
-  const location = useLocation();
+  // changes some ui to to make editing times more readable and functional
+  const [editTimes, setEditTimes] = useState(false);
+  const [show, setShow] = useState(false);
 
-  const [dayToggle, setDayToggle] = useState(true);
-
-  const [edit, setEdit] = useState(false);
-
+  // on submit of the Setting hours form creates an array of hours based on the data given to show a list of the hours
+  // in a person day for their planner
   let handleSubmit = e => {
     e.preventDefault();
     let { startNum, endNum, startAm, endAm } = scheduleStartEnd;
-
+    if (startNum === "" || endNum === "" || startAm === "" || endAm === "") {
+      alert("Please fill out all fields before submitting");
+      return;
+    }
     startNum = parseInt(startNum);
     endNum = parseInt(endNum);
+
     let tempArr = [];
+    //Logic for making sure am and pm are set properly array goes from 1 - 24
     if (startAm === "pm" && startNum !== 12) {
       startNum = startNum + 12;
     }
@@ -118,7 +129,8 @@ const Daily = ({
     if (startNum === 12 && startAm === "am") {
       startNum = 24;
     }
-
+    //first for loop works for most users average day
+    //second for loop is needed if a person works certain types of overnight schedules
     if (startNum < endNum) {
       for (let i = startNum; i <= endNum; i++) {
         tempArr.push(i);
@@ -142,8 +154,29 @@ const Daily = ({
     });
   };
 
+  // handle change for setting hours form
+  let handleChange = e => {
+    const { name, value } = e.target;
+
+    setScheduleStartEnd(prevState => {
+      return { ...prevState, [name]: value };
+    });
+  };
+
+  //Shows the set hours form again if a user wishes to edit the hours of their day
+  let revealScheduleMaker = e => {
+    e.preventDefault();
+    setDayToggle(true);
+    setEditTimes(true);
+  };
+
+  // If a user adds a task for a time that doesn't fit there schedule
+  // we make a leftovers list and show them tasks that dont fit here
   useEffect(() => {
-    console.log("Did this get hit?");
+    if (times.length > 0) {
+      setShow(true);
+    }
+
     let temp = daily.filter(({ time, am }) => {
       if (am === "pm" && time !== 12) {
         time = parseInt(time) + 12;
@@ -157,22 +190,8 @@ const Daily = ({
     setLeftOvers(temp);
   }, [daily, setLeftOvers, dayToggle, times]);
 
-  let handleChange = e => {
-    const { name, value } = e.target;
-
-    setScheduleStartEnd(prevState => {
-      return { ...prevState, [name]: value };
-    });
-  };
-
-  let revealScheduleMaker = e => {
-    e.preventDefault();
-    setDayToggle(true);
-    setEdit(true);
-  };
-
   return (
-    <DailyPageStyled>
+    <DailyPageStyled show={show}>
       <h1>Daily Tasks</h1>
       {dayToggle ? (
         <DaySetterStyled onSubmit={handleSubmit}>
@@ -203,7 +222,7 @@ const Daily = ({
               <option value="pm">PM</option>
             </select>
             <SubmitStyled type="submit" />
-            {edit ? (
+            {editTimes ? (
               <CancelButtonStyled onClick={() => setDayToggle(!dayToggle)}>
                 Cancel
               </CancelButtonStyled>
@@ -216,52 +235,53 @@ const Daily = ({
         </ChangeTimesStyled>
       )}
       <div>
-        {leftOvers.length > 0 ? (
-          <h2>
-            These Items don't fit your schedule. Either change their time or
-            your scheduele
-          </h2>
-        ) : null}
+        <LeftOversStyled>
+          {leftOvers.length > 0 ? (
+            <h2>
+              These items don't fit your schedule. Either change their time or
+              your scheduele if you wish for them to be on the planner.
+            </h2>
+          ) : null}
 
-        {leftOvers.length > 0
-          ? leftOvers.map(
-              (
-                { id, task, time, minutes, color, checked, toggle, am },
-                index
-              ) => {
-                return (
-                  <div key={id}>
-                    <BasicListItem
-                      id={id}
-                      task={task}
-                      time={time}
-                      minutes={minutes}
-                      am={am}
-                      color={color}
-                      checked={checked}
-                      toggle={toggle}
-                      onCheck={onCheck}
-                      onEdit={onEdit}
-                      onDelete={onDelete}
-                      list={daily}
-                      setList={setDaily}
-                    />
-                    {toggle ? (
-                      <EditTasks
-                        item={daily[index]}
-                        list={daily}
-                        setItem={setItem}
-                        setList={setDaily}
-                        onEdit={onEdit}
-                        location={location}
+          {leftOvers.length > 0
+            ? leftOvers.map(
+                (
+                  { id, task, time, minutes, color, checked, toggle, am },
+                  index
+                ) => {
+                  return (
+                    <div key={id}>
+                      <BasicListItem
+                        id={id}
+                        task={task}
+                        time={time}
+                        minutes={minutes}
+                        am={am}
+                        color={color}
+                        checked={checked}
                         toggle={toggle}
+                        onCheck={onCheck}
+                        onEdit={onEdit}
+                        onDelete={onDelete}
+                        list={daily}
+                        setList={setDaily}
                       />
-                    ) : null}
-                  </div>
-                );
-              }
-            )
-          : null}
+                      {toggle ? (
+                        <EditTasks
+                          item={daily[index]}
+                          list={daily}
+                          setItem={setItem}
+                          setList={setDaily}
+                          onEdit={onEdit}
+                          toggle={toggle}
+                        />
+                      ) : null}
+                    </div>
+                  );
+                }
+              )
+            : null}
+        </LeftOversStyled>
         {times.map((num, index) => {
           let amSched = "";
           if (num < 12 || num === 24) {
@@ -333,7 +353,6 @@ const Daily = ({
                                 setItem={setItem}
                                 setList={setDaily}
                                 onEdit={onEdit}
-                                location={location}
                                 toggle={toggle}
                               />
                             ) : null}
