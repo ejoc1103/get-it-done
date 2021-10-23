@@ -6,7 +6,9 @@ import InputArea from "./InputArea";
 import styled from "styled-components";
 
 const CreateTaskStyled = styled.div`
-  display: grid;
+  display: ${({ open }) => {
+    return open ? "none" : "grid";
+  }};
   margin: 120px;
   position: -webkit-sticky; /* Safari */
   position: sticky;
@@ -18,11 +20,17 @@ const CreateTaskStyled = styled.div`
   @media (max-width: 768px) {
     margin-top: 150px;
     width: 500px;
+    position: -webkit-sticky; /* Safari */
+    position: sticky;
+    top: 25%;
   }
 
   @media (max-width: 475px) {
     margin-top: 260px;
     width: 350px;
+    position: -webkit-sticky; /* Safari */
+    position: sticky;
+    top: 25%;
   }
 `;
 
@@ -37,6 +45,7 @@ function CreateTask({
   setItem,
   times,
   toggle,
+  menuOpen,
 }) {
   const { pathname } = useLocation();
   //Create tasks doesnt show right away on day planner page
@@ -121,7 +130,7 @@ function CreateTask({
     <>
       {/* shows automatically on every page but daily on daily it shows after the hours are scheduled */}
       {show ? (
-        <CreateTaskStyled>
+        <CreateTaskStyled open={menuOpen}>
           <InputArea
             handleChange={handleChange}
             handleSubmit={handleSubmit}

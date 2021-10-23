@@ -106,7 +106,7 @@ const NavLinkStyled = styled(NavLink)`
   font-size: 1.2em;
   background: #314e52;
   display: grid;
-  width: 100%;
+  width: 90%;
   justify-self: end;
   align-self: center;
   justify-content: center;
@@ -212,6 +212,7 @@ function App() {
           scheduleStartEnd={scheduleStartEnd}
           leftOvers={leftOvers}
           setLeftOvers={setLeftOvers}
+          menuOpen={menuOpen}
         />
         {/* Displays the different page options based on the routes */}
         <Switch>
