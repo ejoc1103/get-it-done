@@ -13,6 +13,7 @@ const PriorityPageStyled = styled.div`
   min-height: 200px;
   width: 600px;
   margin: 0 auto;
+  margin-top: ${({ margin }) => (margin ? "none" : "12%")};
   padding: 0;
   gap: 20px;
   grid-template-areas:
@@ -22,6 +23,16 @@ const PriorityPageStyled = styled.div`
     "subhead4 content content";
 
   grid-template-columns: 2fr 6fr 6fr;
+
+  @media (max-width: 900px) {
+    margin-top: ${({ margin }) => (margin ? "none" : "18%")};
+  }
+  @media (max-width: 730px) {
+    margin-top: ${({ margin }) => (margin ? "none" : "25%")};
+  }
+  @media (max-width: 500px) {
+    margin-top: ${({ margin }) => (margin ? "none" : "60%")};
+  }
 `;
 
 const PriorityHeaderStyled = styled.h1`
@@ -65,8 +76,8 @@ const ImportantSoonStyled = styled.ul`
   display: grid;
   border: 5px solid red;
   grid-area: list1;
-  width: 250px;
-  height: 250px;
+  min-width: 250px;
+  min-height: 250px;
   justify-self: center;
 `;
 
@@ -74,8 +85,8 @@ const ImportantNotSoonStyled = styled.ul`
   display: grid;
   border: 5px solid green;
   grid-area: list2;
-  width: 250px;
-  height: 250px;
+  min-width: 250px;
+  min-height: 250px;
   grid-template-columns: 1fr;
   justify-self: center;
 `;
@@ -84,8 +95,8 @@ const NotImportantSoon = styled.ul`
   display: grid;
   border: 5px solid blue;
   grid-area: list3;
-  width: 250px;
-  height: 250px;
+  min-width: 250px;
+  min-height: 250px;
   grid-template-columns: 10px 1fr;
   justify-self: center;
 `;
@@ -94,12 +105,20 @@ const NotImportantNotSoon = styled.ul`
   display: grid;
   border: 5px solid gray;
   grid-area: list4;
-  width: 250px;
-  height: 250px;
+  min-width: 250px;
+  min-height: 250px;
   justify-self: center;
 `;
 
-const Prioritize = ({ priority, setPriority, setItem }) => {
+const ShowTaskStyled = styled.button``;
+
+const Prioritize = ({
+  priority,
+  setPriority,
+  setItem,
+  showTaskbar,
+  setShowTaskbar,
+}) => {
   const location = useLocation();
 
   const [ims, setIms] = useState([]);
@@ -132,8 +151,16 @@ const Prioritize = ({ priority, setPriority, setItem }) => {
   // for creating box
   // transform: rotate(-90deg);
   return (
-    <PriorityPageStyled>
+    <PriorityPageStyled margin={showTaskbar}>
       <PriorityHeaderStyled>Importance Model</PriorityHeaderStyled>
+      <ShowTaskStyled
+        onClick={() => {
+          setShowTaskbar(prevState => !prevState);
+        }}
+      >
+        {showTaskbar ? "Hide Create Taskbar" : "Create a New Task"}
+      </ShowTaskStyled>
+
       <SubHead1Styled>Due Soon</SubHead1Styled>
       <SubHead2Styled>Not Due Soon</SubHead2Styled>
       <SubHead3Styled>Important</SubHead3Styled>

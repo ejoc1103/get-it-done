@@ -10,7 +10,7 @@ const InputAreaStyled = styled.div`
   margin-bottom: 20px;
   > h2 {
     width: 100%;
-    background: #f2a154;
+    background: ${({ theme }) => theme.primaryColor};
     text-align: center;
     padding: 5px 0;
   }
@@ -25,7 +25,8 @@ const FormStyled = styled.form`
     > button {
       display: grid;
       font-size: 1.5em;
-      background-color: #f2a154;
+      background-color: ${({ theme }) => theme.primaryColor};
+      color: ${({ theme }) => theme.bodyFontColor};
       border-radius: 30%;
       width: 75%;
 

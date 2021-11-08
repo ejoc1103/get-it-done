@@ -13,8 +13,8 @@ const EditTasksStyled = styled.div`
   margin-left: -250px;
   padding: 30px;
   background: #f5f5f5;
-  border: 5px solid #314e52;
-
+  border: 5px solid ${({ theme }) => theme.secondaryColor};
+  z-index: 5;
   > h2 {
     text-align: center;
   }

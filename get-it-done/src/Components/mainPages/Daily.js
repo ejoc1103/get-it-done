@@ -13,10 +13,21 @@ const DailyPageStyled = styled.div`
   width: 600px;
   text-align: center;
   margin: 0 auto;
+  margin-top: ${({ margin }) => (margin ? "none" : "12%")};
   padding: 0;
   grid-template-columns: 1fr;
   gap: 5px;
   margin-top: ${({ show }) => (show === true ? "" : "150px")};
+
+  @media (max-width: 900px) {
+    margin-top: ${({ margin }) => (margin ? "none" : "18%")};
+  }
+  @media (max-width: 730px) {
+    margin-top: ${({ margin }) => (margin ? "none" : "25%")};
+  }
+  @media (max-width: 500px) {
+    margin-top: ${({ margin }) => (margin ? "none" : "60%")};
+  }
 `;
 
 const DaySetterStyled = styled.form`
@@ -28,7 +39,7 @@ const DaySetterStyled = styled.form`
 
   > h2 {
     width: 100%;
-    background: #f2a154;
+    background: ${({ theme }) => theme.primaryColor};
     text-align: center;
     justify-self: center;
     padding: 5px 0;
@@ -44,7 +55,7 @@ const DaySetterStyled = styled.form`
 `;
 
 const SubmitStyled = styled.input`
-  background: #f2a154;
+  background: ${({ theme }) => theme.primaryColor};
   font-size: 1.5em;
   margin: 5px;
   padding: 0 5px;
@@ -53,20 +64,20 @@ const SubmitStyled = styled.input`
 const ChangeTimesStyled = styled.form`
   justify-self: end;
   > button {
-    background: #f2a154;
+    background: ${({ theme }) => theme.primaryColor};
     font-size: 1em;
   }
 `;
 
 const CancelButtonStyled = styled.button`
-  background: #f2a154;
+  background: ${({ theme }) => theme.primaryColor};
   font-size: 1.5em;
 `;
 
 const DailyScheduleStyled = styled.div`
   display: grid;
   grid-template-columns: 1fr 5fr;
-  border: 3px dashed #314e52;
+  border: 3px dashed ${({ theme }) => theme.secondaryColor};
   background-color: #f5f5f5;
   width: 100%;
 `;
@@ -78,10 +89,15 @@ const HourBlockStyled = styled.div`
 `;
 
 const LeftOversStyled = styled.div`
-  background: #d1c145;
+  background: ${({ theme }) => theme.bodyFontColor};
   > h2 {
     color: white;
   }
+`;
+
+const ShowTaskStyled = styled.button`
+  width: 40%;
+  justify-self: center;
 `;
 
 const Daily = ({
@@ -96,6 +112,8 @@ const Daily = ({
   setLeftOvers,
   dayToggle,
   setDayToggle,
+  showTaskbar,
+  setShowTaskbar,
 }) => {
   // changes some ui to to make editing times more readable and functional
   const [editTimes, setEditTimes] = useState(false);
@@ -191,8 +209,19 @@ const Daily = ({
   }, [daily, setLeftOvers, dayToggle, times]);
 
   return (
-    <DailyPageStyled show={show}>
-      <h1>Daily Tasks</h1>
+    <DailyPageStyled show={show} margin={showTaskbar}>
+      <div>
+        <h1>Daily Tasks</h1>
+        {dayToggle ? null : (
+          <ShowTaskStyled
+            onClick={() => {
+              setShowTaskbar(prevState => !prevState);
+            }}
+          >
+            {showTaskbar ? "Hide Create Taskbar" : "Create a New Task"}
+          </ShowTaskStyled>
+        )}
+      </div>
       {dayToggle ? (
         <DaySetterStyled onSubmit={handleSubmit}>
           <h2>Set Hours For Your Day</h2>
@@ -268,7 +297,7 @@ const Daily = ({
                       />
                       {toggle ? (
                         <EditTasks
-                          item={daily[index]}
+                          item={leftOvers[index]}
                           list={daily}
                           setItem={setItem}
                           setList={setDaily}

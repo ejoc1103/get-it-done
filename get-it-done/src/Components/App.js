@@ -11,7 +11,9 @@ import Prioritize from "./mainPages/Prioritize";
 import Standard from "./mainPages/Standard";
 import Daily from "./mainPages/Daily";
 import { v4 as uuidv4 } from "uuid";
-import styled, { createGlobalStyle } from "styled-components";
+import styled, { createGlobalStyle, ThemeProvider } from "styled-components";
+import LightTheme from "../themes/light";
+import DarkTheme from "../themes/dark";
 //Main Styling
 const GlobalStyle = createGlobalStyle`
 *{
@@ -21,15 +23,16 @@ const GlobalStyle = createGlobalStyle`
 body { 
   font-family: 'Roboto Slab', serif;
   font-family: 'Lato', sans-serif;
-  background: #E7E6E1;
+  background: ${({ theme }) => theme.bodyBackgroundColor};
+  color: ${({ theme }) => theme.bodyFontColor}
 }
 
 h1, h2, h3, h4, h5, h6 {
-  color: #314E52;
+  color: ${({ theme }) => theme.secondaryColor};
 }
 
 .is-active {
-  color: #314E52;
+  color: ${({ theme }) => theme.secondaryColor};
   background:  #F7F6E7;
 }
 `;
@@ -38,12 +41,13 @@ const NavStyled = styled.nav`
   display: grid;
   width: 100%;
   box-sizing: border-box;
-  background: #f2a154;
+  background: ${({ theme }) => theme.primaryColor};
   position: fixed;
   top: 0;
   grid-template-columns: 5fr 1fr;
   justify-content: center;
   padding: 10px;
+  z-index: 2;
 
   @media (max-width: 475px) {
     grid-template-columns: 1fr;
@@ -74,7 +78,7 @@ const MobileMenuIcon = styled.div`
   margin: 10px;
 
   > h2 {
-    background: #f7f6e7;
+    background: ${({ theme }) => theme.primaryColor};
     color: #911f27;
     justify-self: center;
     align-self: center;
@@ -104,7 +108,7 @@ const MobileMenuStyled = styled.ul`
 const NavLinkStyled = styled(NavLink)`
   color: #f7f6e7;
   font-size: 1.2em;
-  background: #314e52;
+  background: ${({ theme }) => theme.secondaryColor};
   display: grid;
   width: 90%;
   justify-self: end;
@@ -119,6 +123,8 @@ function App() {
   const [standard, setStandard] = useState([]);
   const [priority, setPriority] = useState([]);
   const [daily, setDaily] = useState([]);
+  // declaring state for the color theme
+  const [theme, setTheme] = useState(LightTheme);
   // sets a standard state for a task item for any to do list
   // uuid creates unique id's to help differentiate between list items
   const [item, setItem] = useState({
@@ -151,9 +157,18 @@ function App() {
   //decide whether or not to show form to set the start and end of user's day
   const [dayToggle, setDayToggle] = useState(true);
 
-  // removing className App see what happens
+  //state for showing and hiding create task bar
+  const [showTaskbar, setShowTaskbar] = useState(true);
+  console.log(showTaskbar);
   return (
-    <>
+    <ThemeProvider
+      theme={{
+        ...theme,
+        setTheme: () => {
+          setTheme(prev => (prev.id === "light" ? DarkTheme : LightTheme));
+        },
+      }}
+    >
       <GlobalStyle />
       {/* Used Router for Page selection and links */}
       <Router>
@@ -199,21 +214,24 @@ function App() {
           </ListStyled>
         </NavStyled>
         {/* Area for adding tasks to different list declared here becasue it's needed on all pages */}
-        <CreateTask
-          standard={standard}
-          setStandard={setStandard}
-          priority={priority}
-          setPriority={setPriority}
-          daily={daily}
-          setDaily={setDaily}
-          item={item}
-          setItem={setItem}
-          times={times}
-          scheduleStartEnd={scheduleStartEnd}
-          leftOvers={leftOvers}
-          setLeftOvers={setLeftOvers}
-          menuOpen={menuOpen}
-        />
+        {showTaskbar ? (
+          <CreateTask
+            standard={standard}
+            setStandard={setStandard}
+            priority={priority}
+            setPriority={setPriority}
+            daily={daily}
+            setDaily={setDaily}
+            item={item}
+            setItem={setItem}
+            times={times}
+            scheduleStartEnd={scheduleStartEnd}
+            leftOvers={leftOvers}
+            setLeftOvers={setLeftOvers}
+            menuOpen={menuOpen}
+            showTaskbar={showTaskbar}
+          />
+        ) : null}
         {/* Displays the different page options based on the routes */}
         <Switch>
           <Route path="/daily">
@@ -230,6 +248,8 @@ function App() {
               setLeftOvers={setLeftOvers}
               dayToggle={dayToggle}
               setDayToggle={setDayToggle}
+              showTaskbar={showTaskbar}
+              setShowTaskbar={setShowTaskbar}
             />
           </Route>
           <Route path="/prioritize">
@@ -238,6 +258,8 @@ function App() {
               setPriority={setPriority}
               item={item}
               setItem={setItem}
+              showTaskbar={showTaskbar}
+              setShowTaskbar={setShowTaskbar}
             />
           </Route>
           <Route path="/" exact>
@@ -246,6 +268,8 @@ function App() {
               setStandard={setStandard}
               item={item}
               setItem={setItem}
+              showTaskbar={showTaskbar}
+              setShowTaskbar={setShowTaskbar}
             />
           </Route>
           <Route path="*">
@@ -253,7 +277,7 @@ function App() {
           </Route>
         </Switch>
       </Router>
-    </>
+    </ThemeProvider>
   );
 }
 

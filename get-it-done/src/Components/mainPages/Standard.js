@@ -15,6 +15,8 @@ const StandardListStyled = styled.div`
   margin: 0 auto;
   padding: 0;
 
+  margin-top: ${({ margin }) => (margin ? "none" : "12%")};
+
   > ul {
     color: #555;
     font-size: 22px;
@@ -22,15 +24,48 @@ const StandardListStyled = styled.div`
     width: 500px;
     border: 1px solid #dedede;
   }
-  > h1 {
-    text-align: center;
+  > div {
+    display: grid;
+    > h1 {
+      text-align: center;
+    }
+  }
+
+  @media (max-width: 900px) {
+    margin-top: ${({ margin }) => (margin ? "none" : "18%")};
+  }
+  @media (max-width: 730px) {
+    margin-top: ${({ margin }) => (margin ? "none" : "25%")};
+  }
+  @media (max-width: 500px) {
+    margin-top: ${({ margin }) => (margin ? "none" : "60%")};
   }
 `;
+const ShowTaskStyled = styled.button`
+  width: 40%;
+  justify-self: center;
+  align-self: center;
+`;
 //Receives lists and item creation functions from main state through App.js
-const Standard = ({ standard, setStandard, setItem }) => {
+const Standard = ({
+  standard,
+  setStandard,
+  setItem,
+  showTaskbar,
+  setShowTaskbar,
+}) => {
   return (
-    <StandardListStyled>
-      <h1>Standard List</h1>
+    <StandardListStyled margin={showTaskbar}>
+      <div>
+        <h1>Standard List</h1>
+        <ShowTaskStyled
+          onClick={() => {
+            setShowTaskbar(prevState => !prevState);
+          }}
+        >
+          {showTaskbar ? "Hide Create Taskbar" : "Create a New Task"}
+        </ShowTaskStyled>
+      </div>
       <div>
         {/* maps over the array that makes up the standard list to show the items on the page */}
         {standard.map(

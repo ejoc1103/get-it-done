@@ -6,16 +6,20 @@ import InputArea from "./InputArea";
 import styled from "styled-components";
 
 const CreateTaskStyled = styled.div`
-  display: ${({ open }) => {
-    return open ? "none" : "grid";
-  }};
+  display: ${({ open }) => (open ? "none" : "grid")};
   margin: 120px;
   position: -webkit-sticky; /* Safari */
   position: sticky;
-  top: 25%;
-  border: 5px solid #314e52;
-  background: #e7e6e1;
+  top: 20%;
+  border: 5px solid ${({ theme }) => theme.secondaryColor};
+  background: ${({ theme }) => theme.bodyBackgroundColor};
+  color: ${({ theme }) => theme.bodyFontColor};
   padding: 5px;
+  z-index: 1;
+
+  @media (max-width: 905px) {
+    margin-top: 150px;
+  }
 
   @media (max-width: 768px) {
     margin-top: 150px;
@@ -46,6 +50,7 @@ function CreateTask({
   times,
   toggle,
   menuOpen,
+  showTaskbar,
 }) {
   const { pathname } = useLocation();
   //Create tasks doesnt show right away on day planner page
