@@ -1,21 +1,31 @@
-Welcome to my react to do list app GET-It-DONE
+# GET-It-DONE
 
-I provide you with three different types of to do lists you can make, one is your standard list
+Hi! - welcome to _GET-IT-DONE_!
 
-one is a model that will help you prioritize tasks and one is a day planner.
+I provide you with three different types of to do lists, one is your standard list, one is a model that will help you prioritize tasks and one is a day planner.
 
-To run this code on your computer you'll need to
+===
 
-Clone the repo
+## Tools used
 
-cd get-it-done
+_Get-IT-DONE_ is built with react.  I used hooks for most of the functionality and styled components for the css.
 
-npm install
+===
 
-npm run start
+### How to get started
 
-I will be updating this read me soon with more mark up
+**Clone the repo**
 
-Taking wes bos's advanced react course righ now and hot to add a back end 
+**cd get-it-done**
 
-to this site with graphql so I can add authentication and saving of lists
+**npm install**
+
+**npm run start**
+
+===
+
+### Coming soon
+
+* [ ] Authentication
+* [ ] Ability to save your lists
+* [ ] Ability to drag and drop tasks to sort your lists
