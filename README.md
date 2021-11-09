@@ -30,8 +30,6 @@ _Get-IT-DONE_ is built with react.  I used hooks for most of the functionality a
 
 **npm run start**
 
-===
-
 ### Coming soon
 
 * [ ] Authentication
