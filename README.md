@@ -16,13 +16,9 @@ I provide you with three different types of to do lists.
 
 ![Planner](get-it-done/public/images/screenshot3.png)
 
-===
-
 ### Tools used
 
 _Get-IT-DONE_ is built with react.  I used hooks for most of the functionality and styled components for the css.
-
-===
 
 ### How to get started
 
