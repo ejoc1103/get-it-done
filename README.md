@@ -30,8 +30,13 @@ _Get-IT-DONE_ is built with react.  I used hooks for most of the functionality a
 
 **npm run start**
 
+### Site hosted on netlify here 
+
+[GET-IT-Done](get-it-done1234.netlify.app)
+
 ### Coming soon
 
+* [ ] Need to work on css for when open on mobile
 * [ ] Authentication
 * [ ] Ability to save your lists
 * [ ] Ability to drag and drop tasks to sort your lists
