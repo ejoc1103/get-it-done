@@ -9,7 +9,6 @@ const InputAreaStyled = styled.div`
   gap: 10px;
   margin-bottom: 20px;
   > h2 {
-    width: 100%;
     background: ${({ theme }) => theme.primaryColor};
     text-align: center;
     padding: 5px 0;
@@ -70,6 +69,11 @@ const DailyTimeStyled = styled.div`
 const PrioritzieStyled = styled.div`
   > select {
     font-size: 1.5em;
+  }
+  @media (max-width: 475px) {
+    > select {
+      font-size: 1em;
+    }
   }
 `;
 

@@ -19,21 +19,18 @@ const CreateTaskStyled = styled.div`
 
   @media (max-width: 905px) {
     margin-top: 150px;
+    justify-self: center;
+    align-self: center;
   }
 
   @media (max-width: 768px) {
     margin-top: 150px;
-    width: 500px;
-    position: -webkit-sticky; /* Safari */
-    position: sticky;
     top: 25%;
+    justify-self: center;
   }
 
-  @media (max-width: 475px) {
+  @media (max-width: 520px) {
     margin-top: 260px;
-    width: 350px;
-    position: -webkit-sticky; /* Safari */
-    position: sticky;
     top: 25%;
   }
 `;
