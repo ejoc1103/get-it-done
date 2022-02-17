@@ -11,7 +11,6 @@ const StandardListStyled = styled.div`
   display: grid;
   min-height: 200px;
   background-color: #f5f5f5;
-  width: 600px;
   margin: 0 auto;
   padding: 0;
 
@@ -21,7 +20,6 @@ const StandardListStyled = styled.div`
     color: #555;
     font-size: 22px;
     padding: 0 !important;
-    width: 500px;
     border: 1px solid #dedede;
   }
   > div {

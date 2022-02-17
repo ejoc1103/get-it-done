@@ -6,6 +6,7 @@ import onDelete from "../helpers/onDelete";
 import onEdit from "../helpers/onEdit";
 import styled from "styled-components";
 //Styles for Day Planner Page
+
 const DailyPageStyled = styled.div`
   display: grid;
   justify-content: center;
