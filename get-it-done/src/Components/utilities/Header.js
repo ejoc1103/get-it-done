@@ -10,7 +10,7 @@ const StyledHeader = styled.header`
   justify-self: start;
   font-weight: 800;
   color: ${({ theme }) => theme.secondaryColor};
-  padding-left: 40px;
+  padding: 0 40px 0 10px;
 
   @media (max-width: 905px) {
     grid-template-columns: 1fr;

@@ -42,16 +42,25 @@ const NavStyled = styled.nav`
   width: 100%;
   box-sizing: border-box;
   background: ${({ theme }) => theme.primaryColor};
-  position: fixed;
-  top: 0;
   grid-template-columns: 5fr 1fr;
   justify-content: center;
   padding: 10px;
-  z-index: 2;
 
   @media (max-width: 475px) {
     grid-template-columns: 1fr;
   }
+`;
+
+const MainDivStyled = styled.div`
+  display: grid;
+  grid-gap: 50px;
+  grid-template-rows: auto auto auto;
+`;
+
+const MainTopStyled = styled.div`
+  display: grid;
+  grid-gap: 20px;
+  grid-template-rows: auto 1fr auto;
 `;
 
 const ListStyled = styled.ul`
@@ -171,112 +180,119 @@ function App() {
     >
       <GlobalStyle />
       {/* Used Router for Page selection and links */}
-      <Router>
-        <NavStyled>
-          <Header />
-          {/* Selects between the different nav menu options depending on the size of the page */}
-          <MobileMenuIcon onClick={() => setMenuOpen(prevState => !prevState)}>
-            {menuOpen ? <h2>Close Menu</h2> : <h2>Open Menu</h2>}
-          </MobileMenuIcon>
-          <MobileMenuStyled open={menuOpen}>
-            <li>
-              <NavLinkStyled exact to="/" activeClassName="is-active">
-                Standard
-              </NavLinkStyled>
-            </li>
-            <li>
-              <NavLinkStyled to="/prioritize" activeClassName="is-active">
-                Prioritize
-              </NavLinkStyled>
-            </li>
-            <li>
-              <NavLinkStyled to="/daily" activeClassName="is-active">
-                Daily
-              </NavLinkStyled>
-            </li>
-          </MobileMenuStyled>
-          <ListStyled>
-            <li>
-              <NavLinkStyled exact to="/" activeClassName="is-active">
-                Standard
-              </NavLinkStyled>
-            </li>
-            <li>
-              <NavLinkStyled to="/prioritize" activeClassName="is-active">
-                Prioritize
-              </NavLinkStyled>
-            </li>
-            <li>
-              <NavLinkStyled to="/daily" activeClassName="is-active">
-                Daily
-              </NavLinkStyled>
-            </li>
-          </ListStyled>
-        </NavStyled>
-        {/* Area for adding tasks to different list declared here becasue it's needed on all pages */}
-        {showTaskbar ? (
-          <CreateTask
-            standard={standard}
-            setStandard={setStandard}
-            priority={priority}
-            setPriority={setPriority}
-            daily={daily}
-            setDaily={setDaily}
-            item={item}
-            setItem={setItem}
-            times={times}
-            scheduleStartEnd={scheduleStartEnd}
-            leftOvers={leftOvers}
-            setLeftOvers={setLeftOvers}
-            menuOpen={menuOpen}
-            showTaskbar={showTaskbar}
-          />
-        ) : null}
-        {/* Displays the different page options based on the routes */}
-        <Switch>
-          <Route path="/daily">
-            <Daily
-              daily={daily}
-              setDaily={setDaily}
-              item={item}
-              setItem={setItem}
-              times={times}
-              setTimes={setTimes}
-              scheduleStartEnd={scheduleStartEnd}
-              setScheduleStartEnd={setScheduleStartEnd}
-              leftOvers={leftOvers}
-              setLeftOvers={setLeftOvers}
-              dayToggle={dayToggle}
-              setDayToggle={setDayToggle}
-              showTaskbar={showTaskbar}
-              setShowTaskbar={setShowTaskbar}
-            />
-          </Route>
-          <Route path="/prioritize">
-            <Prioritize
-              priority={priority}
-              setPriority={setPriority}
-              item={item}
-              setItem={setItem}
-              showTaskbar={showTaskbar}
-              setShowTaskbar={setShowTaskbar}
-            />
-          </Route>
-          <Route path="/" exact>
-            <Standard
-              standard={standard}
-              setStandard={setStandard}
-              item={item}
-              setItem={setItem}
-              showTaskbar={showTaskbar}
-              setShowTaskbar={setShowTaskbar}
-            />
-          </Route>
-          <Route path="*">
-            <h1>Page Does not exist</h1>
-          </Route>
-        </Switch>
-      </Router>
+      <MainDivStyled>
+        <Router>
+          <MainTopStyled>
+            <NavStyled>
+              <Header />
+              {/* Selects between the different nav menu options depending on the size of the page */}
+              <MobileMenuIcon
+                onClick={() => setMenuOpen(prevState => !prevState)}
+              >
+                {menuOpen ? <h2>Close Menu</h2> : <h2>Open Menu</h2>}
+              </MobileMenuIcon>
+              <MobileMenuStyled open={menuOpen}>
+                <li>
+                  <NavLinkStyled exact to="/" activeClassName="is-active">
+                    Standard
+                  </NavLinkStyled>
+                </li>
+                <li>
+                  <NavLinkStyled to="/prioritize" activeClassName="is-active">
+                    Prioritize
+                  </NavLinkStyled>
+                </li>
+                <li>
+                  <NavLinkStyled to="/daily" activeClassName="is-active">
+                    Daily
+                  </NavLinkStyled>
+                </li>
+              </MobileMenuStyled>
+              <ListStyled>
+                <li>
+                  <NavLinkStyled exact to="/" activeClassName="is-active">
+                    Standard
+                  </NavLinkStyled>
+                </li>
+                <li>
+                  <NavLinkStyled to="/prioritize" activeClassName="is-active">
+                    Prioritize
+                  </NavLinkStyled>
+                </li>
+                <li>
+                  <NavLinkStyled to="/daily" activeClassName="is-active">
+                    Daily
+                  </NavLinkStyled>
+                </li>
+              </ListStyled>
+            </NavStyled>
+
+            {/* Area for adding tasks to different list declared here becasue it's needed on all pages */}
+            {showTaskbar ? (
+              <CreateTask
+                standard={standard}
+                setStandard={setStandard}
+                priority={priority}
+                setPriority={setPriority}
+                daily={daily}
+                setDaily={setDaily}
+                item={item}
+                setItem={setItem}
+                times={times}
+                scheduleStartEnd={scheduleStartEnd}
+                leftOvers={leftOvers}
+                setLeftOvers={setLeftOvers}
+                menuOpen={menuOpen}
+                showTaskbar={showTaskbar}
+              />
+            ) : null}
+          </MainTopStyled>
+          {/* Displays the different page options based on the routes */}
+          <Switch>
+            <Route path="/daily">
+              <Daily
+                daily={daily}
+                setDaily={setDaily}
+                item={item}
+                setItem={setItem}
+                times={times}
+                setTimes={setTimes}
+                scheduleStartEnd={scheduleStartEnd}
+                setScheduleStartEnd={setScheduleStartEnd}
+                leftOvers={leftOvers}
+                setLeftOvers={setLeftOvers}
+                dayToggle={dayToggle}
+                setDayToggle={setDayToggle}
+                showTaskbar={showTaskbar}
+                setShowTaskbar={setShowTaskbar}
+              />
+            </Route>
+            <Route path="/prioritize">
+              <Prioritize
+                priority={priority}
+                setPriority={setPriority}
+                item={item}
+                setItem={setItem}
+                showTaskbar={showTaskbar}
+                setShowTaskbar={setShowTaskbar}
+              />
+            </Route>
+            <Route path="/" exact>
+              <Standard
+                standard={standard}
+                setStandard={setStandard}
+                item={item}
+                setItem={setItem}
+                showTaskbar={showTaskbar}
+                setShowTaskbar={setShowTaskbar}
+              />
+            </Route>
+            <Route path="*">
+              <h1>Page Does not exist</h1>
+            </Route>
+          </Switch>
+        </Router>
+      </MainDivStyled>
     </ThemeProvider>
   );
 }

@@ -7,31 +7,20 @@ import styled from "styled-components";
 
 const CreateTaskStyled = styled.div`
   display: ${({ open }) => (open ? "none" : "grid")};
-  margin: 120px;
-  position: -webkit-sticky; /* Safari */
-  position: sticky;
-  top: 20%;
   border: 5px solid ${({ theme }) => theme.secondaryColor};
   background: ${({ theme }) => theme.bodyBackgroundColor};
   color: ${({ theme }) => theme.bodyFontColor};
   padding: 5px;
-  z-index: 1;
+  justify-self: center;
+  align-self: center;
 
   @media (max-width: 905px) {
-    margin-top: 150px;
-    justify-self: center;
-    align-self: center;
   }
 
   @media (max-width: 768px) {
-    margin-top: 150px;
-    top: 25%;
-    justify-self: center;
   }
 
   @media (max-width: 520px) {
-    margin-top: 260px;
-    top: 25%;
   }
 `;
 
