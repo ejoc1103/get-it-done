@@ -6,7 +6,7 @@ import InputArea from "./InputArea";
 import styled from "styled-components";
 
 const CreateTaskStyled = styled.div`
-  display: ${({ open }) => (open ? "none" : "grid")};
+  display: ${({ open }) => (open ? "grid" : "none")};
   border: 5px solid ${({ theme }) => theme.secondaryColor};
   background: ${({ theme }) => theme.bodyBackgroundColor};
   color: ${({ theme }) => theme.bodyFontColor};
@@ -121,7 +121,7 @@ function CreateTask({
     <>
       {/* shows automatically on every page but daily on daily it shows after the hours are scheduled */}
       {show ? (
-        <CreateTaskStyled open={menuOpen}>
+        <CreateTaskStyled open={showTaskbar}>
           <InputArea
             handleChange={handleChange}
             handleSubmit={handleSubmit}

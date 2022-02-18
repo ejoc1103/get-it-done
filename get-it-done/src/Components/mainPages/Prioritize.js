@@ -8,58 +8,75 @@ import onDelete from "../helpers/onDelete";
 import onEdit from "../helpers/onEdit";
 import styled from "styled-components";
 
+const PriorityMainStyled = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 3fr 1fr;
+  @media (max-width: 1000px) {
+    grid-template-columns: 0.5fr 3fr 0.5fr;
+  }
+`;
+
 const PriorityPageStyled = styled.div`
   display: grid;
-  min-height: 200px;
-  width: 600px;
-  margin: 0 auto;
-  margin-top: ${({ margin }) => (margin ? "none" : "12%")};
   padding: 0;
   gap: 20px;
   grid-template-areas:
-    "header   header   header"
-    ".      subhead1 subhead2"
-    "subhead3 content content"
-    "subhead4 content content";
+    "header   header   header header"
+    ".      subhead1  . subhead2"
+    "subhead3 content content content"
+    "subhead4 content content content";
 
   grid-template-columns: 2fr 6fr 6fr;
+  justify-items: center;
+  align-items: center;
 
-  @media (max-width: 900px) {
-    margin-top: ${({ margin }) => (margin ? "none" : "18%")};
-  }
-  @media (max-width: 730px) {
-    margin-top: ${({ margin }) => (margin ? "none" : "25%")};
-  }
-  @media (max-width: 500px) {
-    margin-top: ${({ margin }) => (margin ? "none" : "60%")};
-  }
+  @media (max-width: 805px) {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+    "header"
+    "content"
 `;
 
 const PriorityHeaderStyled = styled.h1`
   grid-area: header;
   text-align: center;
+  @media (max-width: 805px) {
+    display: none;
+  }
 `;
 
 const SubHead1Styled = styled.h3`
   grid-area: subhead1;
   text-align: center;
+  @media (max-width: 805px) {
+    display: none;
+  }
 `;
 
 const SubHead2Styled = styled.h3`
   grid-area: subhead2;
   text-align: center;
+  @media (max-width: 805px) {
+    display: none;
+  }
 `;
 
 const SubHead3Styled = styled.h3`
   grid-area: subhead3;
   text-align: center;
   align-self: center;
+  @media (max-width: 805px) {
+    display: none;
+  }
 `;
 
 const SubHead4Styled = styled.h3`
   grid-area: subhead4;
   text-align: center;
   align-self: center;
+  @media (max-width: 805px) {
+    display: none;
+  }
 `;
 
 const PriorityModelStyled = styled.div`
@@ -70,6 +87,50 @@ const PriorityModelStyled = styled.div`
     "list1 list2"
     "list3 list4";
   justify-content: center;
+  @media (max-width: 805px) {
+    grid-template-areas:
+      "subhead1"
+      "list1"
+      "subhead2"
+      "list2"
+      "subhead3"
+      "list3"
+      "subhead4"
+      "list4";
+  }
+`;
+
+const SmallScreenSubhead1 = styled.h2`
+  display: none;
+  @media (max-width: 805px) {
+    display: grid;
+    grid-area: subhead1;
+    text-align: center;
+  }
+`;
+const SmallScreenSubhead2 = styled.h2`
+  display: none;
+  @media (max-width: 805px) {
+    display: grid;
+    grid-area: subhead2;
+    text-align: center;
+  }
+`;
+const SmallScreenSubhead3 = styled.h2`
+  display: none;
+  @media (max-width: 805px) {
+    display: grid;
+    grid-area: subhead3;
+    text-align: center;
+  }
+`;
+const SmallScreenSubhead4 = styled.h2`
+  display: none;
+  @media (max-width: 805px) {
+    display: grid;
+    grid-area: subhead4;
+    text-align: center;
+  }
 `;
 
 const ImportantSoonStyled = styled.ul`
@@ -110,7 +171,16 @@ const NotImportantNotSoon = styled.ul`
   justify-self: center;
 `;
 
-const ShowTaskStyled = styled.button``;
+const ShowTaskStyled = styled.button`
+  width: 70%;
+  height: 50px;
+  background-color: ${({ theme }) => theme.secondaryColor};
+  color: ${({ theme }) => theme.primaryColor};
+  font-size: 1em;
+  justify-self: center;
+  border-radius: 30%;
+  padding: 2px;
+`;
 
 const Prioritize = ({
   priority,
@@ -151,33 +221,79 @@ const Prioritize = ({
   // for creating box
   // transform: rotate(-90deg);
   return (
-    <PriorityPageStyled margin={showTaskbar}>
-      <PriorityHeaderStyled>Importance Model</PriorityHeaderStyled>
-      <ShowTaskStyled
-        onClick={() => {
-          setShowTaskbar(prevState => !prevState);
-        }}
-      >
-        {showTaskbar ? "Hide Create Taskbar" : "Create a New Task"}
-      </ShowTaskStyled>
+    <PriorityMainStyled>
+      <div></div>
+      <PriorityPageStyled>
+        <PriorityHeaderStyled>Importance Model</PriorityHeaderStyled>
+        <ShowTaskStyled
+          onClick={() => {
+            setShowTaskbar(prevState => !prevState);
+          }}
+        >
+          {showTaskbar ? "Hide Create Taskbar" : "Create a New Task"}
+        </ShowTaskStyled>
 
-      <SubHead1Styled>Due Soon</SubHead1Styled>
-      <SubHead2Styled>Not Due Soon</SubHead2Styled>
-      <SubHead3Styled>Important</SubHead3Styled>
-      <SubHead4Styled>Not Important</SubHead4Styled>
-      <PriorityModelStyled>
-        <ImportantSoonStyled>
-          <div>
-            {ims.map(
+        <SubHead1Styled>Due Soon</SubHead1Styled>
+        <SubHead2Styled>Not Due Soon</SubHead2Styled>
+        <SubHead3Styled>Important</SubHead3Styled>
+        <SubHead4Styled>Not Important</SubHead4Styled>
+        <PriorityModelStyled>
+          <SmallScreenSubhead1>Important Due Soon</SmallScreenSubhead1>
+          <ImportantSoonStyled>
+            <div>
+              {ims.map(
+                (
+                  { id, task, date, time, checked, toggle, important, due },
+                  index
+                ) => {
+                  let timeValue = "";
+
+                  if (time !== "") {
+                    timeValue = timeConverter(time);
+                  }
+
+                  return (
+                    <div key={id}>
+                      <BasicListItem
+                        id={id}
+                        task={task}
+                        date={date}
+                        time={timeValue}
+                        checked={checked}
+                        toggle={toggle}
+                        important={important}
+                        due={due}
+                        onCheck={onCheck}
+                        onEdit={onEdit}
+                        onDelete={onDelete}
+                        list={priority}
+                        setList={setPriority}
+                      />
+                      {toggle ? (
+                        <EditTasks
+                          item={priority[index]}
+                          list={priority}
+                          setItem={setItem}
+                          setList={setPriority}
+                          onEdit={onEdit}
+                          location={location}
+                          toggle={toggle}
+                        />
+                      ) : null}
+                    </div>
+                  );
+                }
+              )}
+            </div>
+          </ImportantSoonStyled>
+          <SmallScreenSubhead2>Important Not Due Soon</SmallScreenSubhead2>
+          <ImportantNotSoonStyled>
+            {imns.map(
               (
                 { id, task, date, time, checked, toggle, important, due },
                 index
               ) => {
-                let timeValue = "";
-
-                if (time !== "") {
-                  timeValue = timeConverter(time);
-                }
+                let timeValue = timeConverter(time);
 
                 return (
                   <div key={id}>
@@ -211,131 +327,93 @@ const Prioritize = ({
                 );
               }
             )}
-          </div>
-        </ImportantSoonStyled>
-        <ImportantNotSoonStyled>
-          {imns.map(
-            (
-              { id, task, date, time, checked, toggle, important, due },
-              index
-            ) => {
-              let timeValue = timeConverter(time);
+          </ImportantNotSoonStyled>
+          <SmallScreenSubhead3>Not Important Soon</SmallScreenSubhead3>
+          <NotImportantSoon>
+            {nims.map(
+              (
+                { id, task, date, time, checked, toggle, important, due },
+                index
+              ) => {
+                let timeValue = timeConverter(time);
 
-              return (
-                <div key={id}>
-                  <BasicListItem
-                    id={id}
-                    task={task}
-                    date={date}
-                    time={timeValue}
-                    checked={checked}
-                    toggle={toggle}
-                    important={important}
-                    due={due}
-                    onCheck={onCheck}
-                    onEdit={onEdit}
-                    onDelete={onDelete}
-                    list={priority}
-                    setList={setPriority}
-                  />
-                  {toggle ? (
-                    <EditTasks
-                      item={priority[index]}
-                      list={priority}
-                      setItem={setItem}
-                      setList={setPriority}
-                      onEdit={onEdit}
-                      location={location}
+                return (
+                  <div key={id}>
+                    <BasicListItem
+                      id={id}
+                      task={task}
+                      date={date}
+                      time={timeValue}
+                      checked={checked}
                       toggle={toggle}
-                    />
-                  ) : null}
-                </div>
-              );
-            }
-          )}
-        </ImportantNotSoonStyled>
-        <NotImportantSoon>
-          {nims.map(
-            (
-              { id, task, date, time, checked, toggle, important, due },
-              index
-            ) => {
-              let timeValue = timeConverter(time);
-
-              return (
-                <div key={id}>
-                  <BasicListItem
-                    id={id}
-                    task={task}
-                    date={date}
-                    time={timeValue}
-                    checked={checked}
-                    toggle={toggle}
-                    important={important}
-                    due={due}
-                    onCheck={onCheck}
-                    onEdit={onEdit}
-                    onDelete={onDelete}
-                    list={priority}
-                    setList={setPriority}
-                  />
-                  {toggle ? (
-                    <EditTasks
-                      item={priority[index]}
-                      list={priority}
-                      setItem={setItem}
-                      setList={setPriority}
+                      important={important}
+                      due={due}
+                      onCheck={onCheck}
                       onEdit={onEdit}
-                      location={location}
-                    />
-                  ) : null}
-                </div>
-              );
-            }
-          )}
-        </NotImportantSoon>
-        <NotImportantNotSoon>
-          {nimns.map(
-            (
-              { id, task, date, time, checked, toggle, important, due },
-              index
-            ) => {
-              let timeValue = timeConverter(time);
-
-              return (
-                <div key={id}>
-                  <BasicListItem
-                    id={id}
-                    task={task}
-                    date={date}
-                    time={timeValue}
-                    checked={checked}
-                    toggle={toggle}
-                    important={important}
-                    due={due}
-                    onCheck={onCheck}
-                    onEdit={onEdit}
-                    onDelete={onDelete}
-                    list={priority}
-                    setList={setPriority}
-                  />
-                  {toggle ? (
-                    <EditTasks
-                      item={priority[index]}
+                      onDelete={onDelete}
                       list={priority}
-                      setItem={setItem}
                       setList={setPriority}
-                      onEdit={onEdit}
-                      location={location}
                     />
-                  ) : null}
-                </div>
-              );
-            }
-          )}
-        </NotImportantNotSoon>
-      </PriorityModelStyled>
-    </PriorityPageStyled>
+                    {toggle ? (
+                      <EditTasks
+                        item={priority[index]}
+                        list={priority}
+                        setItem={setItem}
+                        setList={setPriority}
+                        onEdit={onEdit}
+                        location={location}
+                      />
+                    ) : null}
+                  </div>
+                );
+              }
+            )}
+          </NotImportantSoon>
+          <SmallScreenSubhead4>Not Important Not Due Soon</SmallScreenSubhead4>
+          <NotImportantNotSoon>
+            {nimns.map(
+              (
+                { id, task, date, time, checked, toggle, important, due },
+                index
+              ) => {
+                let timeValue = timeConverter(time);
+
+                return (
+                  <div key={id}>
+                    <BasicListItem
+                      id={id}
+                      task={task}
+                      date={date}
+                      time={timeValue}
+                      checked={checked}
+                      toggle={toggle}
+                      important={important}
+                      due={due}
+                      onCheck={onCheck}
+                      onEdit={onEdit}
+                      onDelete={onDelete}
+                      list={priority}
+                      setList={setPriority}
+                    />
+                    {toggle ? (
+                      <EditTasks
+                        item={priority[index]}
+                        list={priority}
+                        setItem={setItem}
+                        setList={setPriority}
+                        onEdit={onEdit}
+                        location={location}
+                      />
+                    ) : null}
+                  </div>
+                );
+              }
+            )}
+          </NotImportantNotSoon>
+        </PriorityModelStyled>
+      </PriorityPageStyled>
+      <div></div>
+    </PriorityMainStyled>
   );
 };
 

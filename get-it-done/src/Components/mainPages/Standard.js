@@ -40,9 +40,14 @@ const StandardListStyled = styled.div`
   }
 `;
 const ShowTaskStyled = styled.button`
-  width: 40%;
+  width: 70%;
+  height: 50px;
+  background-color: ${({ theme }) => theme.secondaryColor};;
+  color: ${({ theme }) => theme.primaryColor};
+  font-size: 1em;
   justify-self: center;
-  align-self: center;
+  border-radius: 30%;
+  padding: 2px;
 `;
 //Receives lists and item creation functions from main state through App.js
 const Standard = ({

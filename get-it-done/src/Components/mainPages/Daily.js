@@ -10,31 +10,20 @@ import styled from "styled-components";
 const DailyPageStyled = styled.div`
   display: grid;
   justify-content: center;
-  min-height: 200px;
-  width: 600px;
   text-align: center;
-  margin: 0 auto;
-  margin-top: ${({ margin }) => (margin ? "none" : "12%")};
   padding: 0;
   grid-template-columns: 1fr;
   gap: 5px;
-  margin-top: ${({ show }) => (show === true ? "" : "150px")};
-
-  @media (max-width: 900px) {
-    margin-top: ${({ margin }) => (margin ? "none" : "18%")};
-  }
-  @media (max-width: 730px) {
-    margin-top: ${({ margin }) => (margin ? "none" : "25%")};
-  }
-  @media (max-width: 500px) {
-    margin-top: ${({ margin }) => (margin ? "none" : "60%")};
-  }
+  justify-items: center;
+  align-items: center;
 `;
 
 const DaySetterStyled = styled.form`
   display: grid;
   grid-template-columns: 1fr;
   justify-content: center;
+  justify-items: center;
+  align-items: center;
   gap: 10px;
   margin-bottom: 20px;
 
@@ -63,10 +52,15 @@ const SubmitStyled = styled.input`
 `;
 
 const ChangeTimesStyled = styled.form`
-  justify-self: end;
+  justify-self: center;
   > button {
-    background: ${({ theme }) => theme.primaryColor};
+    background: ${({ theme }) => theme.secondaryColor};
     font-size: 1em;
+    margin: 10px 0 10px 0;
+    color: ${({ theme }) => theme.primaryColor};
+    border-radius: 30%;
+    width: 70%;
+    height: 50px;
   }
 `;
 
@@ -97,8 +91,14 @@ const LeftOversStyled = styled.div`
 `;
 
 const ShowTaskStyled = styled.button`
-  width: 40%;
+  width: 70%;
+  height: 50px;
+  background-color: ${({ theme }) => theme.secondaryColor};
+  color: ${({ theme }) => theme.primaryColor};
+  font-size: 1em;
   justify-self: center;
+  border-radius: 30%;
+  padding: 2px;
 `;
 
 const Daily = ({

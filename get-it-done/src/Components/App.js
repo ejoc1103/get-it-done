@@ -44,10 +44,14 @@ const NavStyled = styled.nav`
   background: ${({ theme }) => theme.primaryColor};
   grid-template-columns: 5fr 1fr;
   justify-content: center;
-  padding: 10px;
+  padding: 10px 30px 5px 30px;
+  justify-items: center;
+  align-items: center;
 
   @media (max-width: 475px) {
     grid-template-columns: 1fr;
+    justify-items: center;
+    align-items: center;
   }
 `;
 
@@ -78,13 +82,15 @@ const ListStyled = styled.ul`
   justify-self: center;
   margin-right: 20px;
 
-  @media (max-width: 768px) {
+  @media (max-width: 785px) {
     display: none;
   }
 `;
 
 const MobileMenuIcon = styled.div`
   margin: 10px;
+  justify-self: center;
+  grid-column: span 2;
 
   > h2 {
     background: ${({ theme }) => theme.primaryColor};
@@ -93,18 +99,16 @@ const MobileMenuIcon = styled.div`
     align-self: center;
     padding: 10px;
   }
-  @media (min-width: 768px) {
+  @media (min-width: 785px) {
     display: none;
   }
 `;
 
 const MobileMenuStyled = styled.ul`
   display: ${props => (props.open ? "grid" : "none")};
-  width: 50%;
+  grid-column: span 2;
   grid-template-columns: 1fr;
   list-style-type: none;
-  justify-content: center;
-  align-items: center;
   justify-self: center;
   align-self: center;
   gap: 10px;
@@ -265,6 +269,7 @@ function App() {
                 setDayToggle={setDayToggle}
                 showTaskbar={showTaskbar}
                 setShowTaskbar={setShowTaskbar}
+                theme={theme}
               />
             </Route>
             <Route path="/prioritize">

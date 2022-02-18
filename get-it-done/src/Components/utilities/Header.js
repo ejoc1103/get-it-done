@@ -12,19 +12,22 @@ const StyledHeader = styled.header`
   color: ${({ theme }) => theme.secondaryColor};
   padding: 0 40px 0 10px;
 
-  @media (max-width: 905px) {
+  @media (max-width: 920px) {
     grid-template-columns: 1fr;
+  }
+  @media (max-width: 800px) {
+    text-align: center;
+    grid-column: span 2;
+    justify-self: center;
   }
 `;
 
 const Header = () => {
   const { id, setTheme } = useContext(ThemeContext);
   return (
-    <div>
-      <StyledHeader>
-        Get It Done <Toggle isActive={id === "dark"} onToggle={setTheme} />
-      </StyledHeader>
-    </div>
+    <StyledHeader>
+      Get It Done <Toggle isActive={id === "dark"} onToggle={setTheme} />
+    </StyledHeader>
   );
 };
 
