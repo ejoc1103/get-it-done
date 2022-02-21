@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from "react";
-import EditTasks from "../utilities/EditTasks";
-import BasicListItem from "../utilities/BasicListItem";
-import onCheck from "../helpers/onCheck";
-import onDelete from "../helpers/onDelete";
-import onEdit from "../helpers/onEdit";
-import styled from "styled-components";
+import React, { useState, useEffect } from 'react';
+import EditTasks from '../utilities/EditTasks';
+import BasicListItem from '../utilities/BasicListItem';
+import onCheck from '../helpers/onCheck';
+import onDelete from '../helpers/onDelete';
+import onEdit from '../helpers/onEdit';
+import styled from 'styled-components';
 //Styles for Day Planner Page
 
 const DailyPageStyled = styled.div`
@@ -91,14 +91,12 @@ const LeftOversStyled = styled.div`
 `;
 
 const ShowTaskStyled = styled.button`
-  width: 70%;
-  height: 50px;
   background-color: ${({ theme }) => theme.secondaryColor};
   color: ${({ theme }) => theme.primaryColor};
   font-size: 1em;
   justify-self: center;
   border-radius: 30%;
-  padding: 2px;
+  padding: 15px;
 `;
 
 const Daily = ({
@@ -125,8 +123,8 @@ const Daily = ({
   let handleSubmit = e => {
     e.preventDefault();
     let { startNum, endNum, startAm, endAm } = scheduleStartEnd;
-    if (startNum === "" || endNum === "" || startAm === "" || endAm === "") {
-      alert("Please fill out all fields before submitting");
+    if (startNum === '' || endNum === '' || startAm === '' || endAm === '') {
+      alert('Please fill out all fields before submitting');
       return;
     }
     startNum = parseInt(startNum);
@@ -134,18 +132,18 @@ const Daily = ({
 
     let tempArr = [];
     //Logic for making sure am and pm are set properly array goes from 1 - 24
-    if (startAm === "pm" && startNum !== 12) {
+    if (startAm === 'pm' && startNum !== 12) {
       startNum = startNum + 12;
     }
-    if (endAm === "pm" && endNum !== 12) {
+    if (endAm === 'pm' && endNum !== 12) {
       endNum = endNum + 12;
     }
 
-    if (endNum === 12 && endAm === "am") {
+    if (endNum === 12 && endAm === 'am') {
       endNum = 24;
     }
 
-    if (startNum === 12 && startAm === "am") {
+    if (startNum === 12 && startAm === 'am') {
       startNum = 24;
     }
     //first for loop works for most users average day
@@ -166,10 +164,10 @@ const Daily = ({
     setTimes(tempArr);
     setDayToggle(false);
     setScheduleStartEnd({
-      startNum: "",
-      startAm: "am",
-      endNum: "",
-      endAm: "am",
+      startNum: '',
+      startAm: 'am',
+      endNum: '',
+      endAm: 'am',
     });
   };
 
@@ -197,7 +195,7 @@ const Daily = ({
     }
 
     let temp = daily.filter(({ time, am }) => {
-      if (am === "pm" && time !== 12) {
+      if (am === 'pm' && time !== 12) {
         time = parseInt(time) + 12;
       } else {
         parseInt(time);
@@ -219,7 +217,7 @@ const Daily = ({
               setShowTaskbar(prevState => !prevState);
             }}
           >
-            {showTaskbar ? "Hide Create Taskbar" : "Create a New Task"}
+            {showTaskbar ? 'Hide Create Taskbar' : 'Create a New Task'}
           </ShowTaskStyled>
         )}
       </div>
@@ -228,30 +226,30 @@ const Daily = ({
           <h2>Set Hours For Your Day</h2>
           <div>
             <input
-              type="number"
-              name="startNum"
+              type='number'
+              name='startNum'
               onChange={handleChange}
-              placeholder="Start"
-              min="1"
-              max="12"
+              placeholder='Start'
+              min='1'
+              max='12'
             />
-            <select name="startAm" onChange={handleChange} id="start">
-              <option value="am">AM</option>
-              <option value="pm">PM</option>
+            <select name='startAm' onChange={handleChange} id='start'>
+              <option value='am'>AM</option>
+              <option value='pm'>PM</option>
             </select>
             <input
-              type="number"
-              name="endNum"
+              type='number'
+              name='endNum'
               onChange={handleChange}
-              placeholder="End"
-              min="1"
-              max="12"
+              placeholder='End'
+              min='1'
+              max='12'
             />
-            <select name="endAm" onChange={handleChange} id="end">
-              <option value="am">AM</option>
-              <option value="pm">PM</option>
+            <select name='endAm' onChange={handleChange} id='end'>
+              <option value='am'>AM</option>
+              <option value='pm'>PM</option>
             </select>
-            <SubmitStyled type="submit" />
+            <SubmitStyled type='submit' />
             {editTimes ? (
               <CancelButtonStyled onClick={() => setDayToggle(!dayToggle)}>
                 Cancel
@@ -261,7 +259,7 @@ const Daily = ({
         </DaySetterStyled>
       ) : (
         <ChangeTimesStyled onSubmit={revealScheduleMaker}>
-          <button type="submit">Change Times</button>
+          <button type='submit'>Change Times</button>
         </ChangeTimesStyled>
       )}
       <div>
@@ -313,17 +311,17 @@ const Daily = ({
             : null}
         </LeftOversStyled>
         {times.map((num, index) => {
-          let amSched = "";
+          let amSched = '';
           if (num < 12 || num === 24) {
             if (num === 24) {
               num = num - 12;
             }
-            amSched = "am";
+            amSched = 'am';
           } else if (num === 12) {
-            amSched = "pm";
+            amSched = 'pm';
           } else {
             num = num - 12;
-            amSched = "pm";
+            amSched = 'pm';
           }
 
           let timeslot = daily.filter(task => {
@@ -348,7 +346,7 @@ const Daily = ({
           return (
             <DailyScheduleStyled key={index}>
               <div>
-                <h2>{num + " " + amSched}</h2>;
+                <h2>{num + ' ' + amSched}</h2>;
               </div>
               <HourBlockStyled>
                 {timeslot.map(

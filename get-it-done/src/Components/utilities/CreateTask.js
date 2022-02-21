@@ -13,15 +13,6 @@ const CreateTaskStyled = styled.div`
   padding: 5px;
   justify-self: center;
   align-self: center;
-
-  @media (max-width: 905px) {
-  }
-
-  @media (max-width: 768px) {
-  }
-
-  @media (max-width: 520px) {
-  }
 `;
 
 function CreateTask({
@@ -35,7 +26,6 @@ function CreateTask({
   setItem,
   times,
   toggle,
-  menuOpen,
   showTaskbar,
 }) {
   const { pathname } = useLocation();

@@ -1,20 +1,16 @@
-import React from "react";
-import EditTasks from "../utilities/EditTasks";
-import timeConverter from "../utilities/timeConverter";
-import onCheck from "../helpers/onCheck";
-import BasicListItem from "../utilities/BasicListItem";
-import onDelete from "../helpers/onDelete";
-import onEdit from "../helpers/onEdit";
-import styled from "styled-components";
+import React from 'react';
+import EditTasks from '../utilities/EditTasks';
+import timeConverter from '../utilities/timeConverter';
+import onCheck from '../helpers/onCheck';
+import BasicListItem from '../utilities/BasicListItem';
+import onDelete from '../helpers/onDelete';
+import onEdit from '../helpers/onEdit';
+import styled from 'styled-components';
 //styling for standard page
 const StandardListStyled = styled.div`
   display: grid;
-  min-height: 200px;
   background-color: #f5f5f5;
-  margin: 0 auto;
   padding: 0;
-
-  margin-top: ${({ margin }) => (margin ? "none" : "12%")};
 
   > ul {
     color: #555;
@@ -28,26 +24,14 @@ const StandardListStyled = styled.div`
       text-align: center;
     }
   }
-
-  @media (max-width: 900px) {
-    margin-top: ${({ margin }) => (margin ? "none" : "18%")};
-  }
-  @media (max-width: 730px) {
-    margin-top: ${({ margin }) => (margin ? "none" : "25%")};
-  }
-  @media (max-width: 500px) {
-    margin-top: ${({ margin }) => (margin ? "none" : "60%")};
-  }
 `;
 const ShowTaskStyled = styled.button`
-  width: 70%;
-  height: 50px;
-  background-color: ${({ theme }) => theme.secondaryColor};;
+  background-color: ${({ theme }) => theme.secondaryColor};
   color: ${({ theme }) => theme.primaryColor};
   font-size: 1em;
   justify-self: center;
   border-radius: 30%;
-  padding: 2px;
+  padding: 15px;
 `;
 //Receives lists and item creation functions from main state through App.js
 const Standard = ({
@@ -66,18 +50,18 @@ const Standard = ({
             setShowTaskbar(prevState => !prevState);
           }}
         >
-          {showTaskbar ? "Hide Create Taskbar" : "Create a New Task"}
+          {showTaskbar ? 'Hide Create Taskbar' : 'Create a New Task'}
         </ShowTaskStyled>
       </div>
       <div>
         {/* maps over the array that makes up the standard list to show the items on the page */}
         {standard.map(
           ({ id, task, date, time, color, checked, toggle }, index) => {
-            let standardTime = "";
+            let standardTime = '';
 
             /* timeConverter takes the time which is given in milary style through javascript and makes it standard */
 
-            if (time !== "") {
+            if (time !== '') {
               standardTime = timeConverter(time);
             }
 

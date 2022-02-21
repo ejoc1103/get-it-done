@@ -58,20 +58,16 @@ const NavStyled = styled.nav`
 const MainDivStyled = styled.div`
   display: grid;
   grid-gap: 50px;
-  grid-template-rows: auto auto auto;
 `;
 
 const MainTopStyled = styled.div`
   display: grid;
   grid-gap: 20px;
-  grid-template-rows: auto 1fr auto;
 `;
 
 const ListStyled = styled.ul`
   display: grid;
-
   width: 100%;
-
   grid-template-columns: 1fr 1fr 1fr;
   gap: 20px;
   padding-right: 20px;
