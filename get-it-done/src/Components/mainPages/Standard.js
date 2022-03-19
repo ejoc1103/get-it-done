@@ -11,6 +11,8 @@ const StandardListStyled = styled.div`
   display: grid;
   background-color: #f5f5f5;
   padding: 0;
+  max-width: 80%;
+  justify-self: center;
 
   > ul {
     color: #555;
