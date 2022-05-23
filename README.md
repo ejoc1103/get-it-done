@@ -6,15 +6,15 @@ I provide you with three different types of to do lists.
 
 ## Standard List
 
-![standard](get-it-done/public/images/screenshot1.png)
+![standard](public/images/screenshot1.png)
 
 ## Prioritizing List
 
-![priority](get-it-done/public/images/screenshot2.png)
+![priority](public/images/screenshot2.png)
 
 ## Day Planner
 
-![Planner](get-it-done/public/images/screenshot3.png)
+![Planner](public/images/screenshot3.png)
 
 ### Tools used
 
